@@ -2,7 +2,7 @@ import { Link, useSearchParams } from 'react-router';
 import { Plus, User } from 'lucide-react';
 
 import { AdminTitle } from '@/admin/components/AdminTitle';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
 import { DataSort, type SortOption } from '@/shared/components/DataSort';
@@ -76,9 +76,12 @@ const CustomersPage = () => {
     <>
       <div className="flex items-center justify-between">
         <AdminTitle title="Clientes" Icon={User} />
-        <Button size="sm" render={<Link to="/admin/customers/new" />}>
+        <Link
+          to="/admin/customers/new"
+          className={buttonVariants({ size: 'sm' })}
+        >
           <Plus /> Agregar cliente
-        </Button>
+        </Link>
       </div>
       <div className="mt-3">
         <Card className="p-0">

@@ -12,7 +12,7 @@ export const useCategories = () => {
   const direction = searchParams.get('direction') || undefined;
 
   const query = useQuery({
-    queryKey: ['customers', { page, limit, q, sort, direction }],
+    queryKey: ['categories', { page, limit, q, sort, direction }],
     queryFn: () =>
       getCategoriesPaginationAction({
         page: Number(page),

@@ -39,7 +39,7 @@ export const CategoriesTable = ({ categories }: Props) => {
             <TableCell>
               <Link
                 className="font-medium leading-none capitalize hover:underline"
-                to={`/admin/customers/${category.id}`}
+                to={`/admin/categories/${category.id}`}
               >
                 {category.name}
               </Link>
