@@ -7,6 +7,7 @@ const DashboardPage = lazy(() => import('../pages/dashboard/DashboardPage'));
 const ProductsPage = lazy(() => import('../pages/products/ProductsPage'));
 const ProductPage = lazy(() => import('../pages/product/ProductPage'));
 const CategoriesPage = lazy(() => import('../pages/categories/CategoriesPage'));
+const CategoryPage = lazy(() => import('../pages/category/CategoryPage'));
 const CustomersPage = lazy(() => import('../pages/customers/CustomersPage'));
 const CustomerPage = lazy(() => import('../pages/customer/CustomerPage'));
 
@@ -17,9 +18,6 @@ export const adminRouter: RouteObject = {
       <AdminLayout />
     </AuthenticatedRoute>
   ),
-  handle: {
-    breadcrumb: 'Inicio',
-  },
   children: [
     {
       index: true,
@@ -36,6 +34,10 @@ export const adminRouter: RouteObject = {
     {
       path: 'categories',
       element: <CategoriesPage />,
+    },
+    {
+      path: 'categories/:id',
+      element: <CategoryPage />,
     },
     {
       path: 'customers',
