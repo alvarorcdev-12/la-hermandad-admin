@@ -38,7 +38,7 @@ const CategoryPage = () => {
   }
 
   if (isLoading) {
-    return <div>Cargando...</div>;
+    return <h1>Cargando...</h1>;
   }
 
   if (!category) {

@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import type { Category } from '@/categories/interfaces/category.interface';
 
+
 interface Props {
   category: Category;
   isPending: boolean;
@@ -53,7 +54,7 @@ export const CategoryForm = ({ category, isPending, onSubmit }: Props) => {
                 <FieldLabel>Descripción</FieldLabel>
                 <Textarea
                   placeholder="Descripción"
-                  className="min-h-32 max-h-32"
+                  className="min-h-40 max-h-40"
                   {...register('description')}
                 />
               </Field>
@@ -69,6 +70,12 @@ export const CategoryForm = ({ category, isPending, onSubmit }: Props) => {
           >
             Cancelar
           </Button>
+          {/* <Link
+            to="/admin/categories"
+            className={buttonVariants({ variant: 'outline' })}
+          >
+            Cancelar
+          </Link> */}
           <Button type="submit" disabled={isPending}>
             Guardar
           </Button>
