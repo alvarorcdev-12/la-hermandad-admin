@@ -12,10 +12,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { CustomConfirmDialog } from '@/shared/components/CustomConfirmDialog';
-import type { Product } from '@/products/interfaces/product.interface';
 import { useCategories } from '@/categories/hooks/useCategories';
+import type { Product } from '@/products/interfaces/product.interface';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -85,7 +85,7 @@ const ProductPage = () => {
           {id !== 'new' && (
             <DropdownMenu>
               <DropdownMenuTrigger
-                className={buttonVariants({ variant: 'outline', size: 'sm' })}
+                render={<Button variant="outline" size="sm" />}
               >
                 Más acciones
                 <ChevronDown />

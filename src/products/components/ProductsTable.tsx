@@ -30,7 +30,7 @@ export const ProductsTable = ({ products }: Props) => {
           <TableHead className="text-muted-foreground">Categoría</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody className="relative">
+      <TableBody>
         {products.map((product) => (
           <TableRow key={product.id}>
             <TableCell>
@@ -55,7 +55,13 @@ export const ProductsTable = ({ products }: Props) => {
               <ProductStatusBadge status={product.status} />
             </TableCell>
             <TableCell>
-              <span>
+              <span
+                className={
+                  product.trackInventory && product.inventoryQuantity === 0
+                    ? 'text-destructive'
+                    : ''
+                }
+              >
                 {!product.trackInventory
                   ? 'No se hace seguimiento del inventario'
                   : `${product.inventoryQuantity} en existencias`}
