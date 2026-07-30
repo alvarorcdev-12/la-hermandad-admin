@@ -6,7 +6,7 @@ import {
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
 interface Props {
-  costPrice?: string;
+  costPrice: string | null;
   price?: string;
   register: UseFormRegisterReturn<'costPrice'>;
 }

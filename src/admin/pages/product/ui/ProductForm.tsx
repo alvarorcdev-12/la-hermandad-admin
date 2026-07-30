@@ -37,13 +37,15 @@ import { Switch } from '@/components/ui/switch';
 import { Spinner } from '@/components/ui/spinner';
 import { ProfitCalculator } from './ProfitCalculator';
 import type { Product } from '@/products/interfaces/product.interface';
+import type { Category } from '@/categories/interfaces/category.interface';
 
 interface Props {
   product?: Product;
   isPending: boolean;
+  categories: Category[];
 
   onSubmit: (
-    productLike: Partial<Product> & { categoryId: string },
+    productLike: Partial<Product> & { categoryId: string | null },
   ) => Promise<void>;
 }
 
@@ -51,7 +53,12 @@ interface FormInputs extends Product {
   categoryId: string | null;
 }
 
-export const ProductForm = ({ product, isPending, onSubmit }: Props) => {
+export const ProductForm = ({
+  product,
+  categories,
+  isPending,
+  onSubmit,
+}: Props) => {
   const {
     register,
     control,
@@ -108,7 +115,7 @@ export const ProductForm = ({ product, isPending, onSubmit }: Props) => {
                   <FieldLabel>Descripción</FieldLabel>
                   <Textarea
                     placeholder="Descripción del producto"
-                    className="min-h-32 max-h-32"
+                    className="min-h-40 max-h-40"
                     {...register('description')}
                     aria-invalid={!!errors.description}
                   ></Textarea>
@@ -142,9 +149,18 @@ export const ProductForm = ({ product, isPending, onSubmit }: Props) => {
                     {...register('categoryId')}
                     aria-invalid={!!errors.categoryId}
                   >
-                    <NativeSelectOption defaultChecked>
+                    <NativeSelectOption value="" disabled>
                       Elija una categoría de producto
                     </NativeSelectOption>
+                    {categories.map((category) => (
+                      <NativeSelectOption
+                        key={category.id}
+                        value={category.id}
+                        className="capitalize"
+                      >
+                        {category.name}
+                      </NativeSelectOption>
+                    ))}
                   </NativeSelect>
                 </Field>
               </FieldGroup>

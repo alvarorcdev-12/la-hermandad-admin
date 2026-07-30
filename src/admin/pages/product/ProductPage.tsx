@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router';
 import { Archive, ChevronDown, Tag, Trash } from 'lucide-react';
+import { toast } from 'sonner';
 import { AdminTitle } from '@/admin/components/AdminTitle';
 import { ProductForm } from './ui/ProductForm';
 import { useProduct } from '@/products/hooks/useProduct';
@@ -12,9 +13,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { buttonVariants } from '@/components/ui/button';
-import { toast } from 'sonner';
-import type { Product } from '@/products/interfaces/product.interface';
 import { CustomConfirmDialog } from '@/shared/components/CustomConfirmDialog';
+import type { Product } from '@/products/interfaces/product.interface';
+import { useCategories } from '@/categories/hooks/useCategories';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -30,11 +31,13 @@ const ProductPage = () => {
     deleteProduct,
   } = useProduct(id || '');
 
+  const { data, isLoading: isCategoriesLoading } = useCategories();
+
   const title =
     id === 'new' ? 'Agregar producto' : (product?.title ?? 'Editar producto');
 
   const handleSubmit = async (
-    productLike: Partial<Product> & { categoryId: string },
+    productLike: Partial<Product> & { categoryId: string | null },
   ) => {
     await mutation.mutateAsync(productLike, {
       onSuccess: (data) => {
@@ -63,7 +66,7 @@ const ProductPage = () => {
     return <Navigate to="/admin/products" />;
   }
 
-  if (isLoading) {
+  if (isLoading || isCategoriesLoading) {
     return <h1>Cargando...</h1>;
   }
 
@@ -106,6 +109,7 @@ const ProductPage = () => {
             product={product}
             onSubmit={handleSubmit}
             isPending={mutation.isPending}
+            categories={data?.results || []}
           />
         </div>
       </div>

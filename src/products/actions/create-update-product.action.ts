@@ -7,6 +7,7 @@ export const createUpdateProductAction = async (
 ): Promise<Product> => {
   await sleep(1500);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { id, category, ...rest } = productLike;
 
   const isCrating = id === 'new';
@@ -33,6 +34,6 @@ export const createUpdateProductAction = async (
     return data;
   } catch (error) {
     console.log({ error });
-    throw new Error('Error saving product');
+    throw new Error('Error saving product', { cause: error });
   }
 };
