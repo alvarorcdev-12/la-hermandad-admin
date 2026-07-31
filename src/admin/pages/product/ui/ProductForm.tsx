@@ -1,12 +1,6 @@
 import { Link } from 'react-router';
-import { useForm, useWatch } from 'react-hook-form';
-import {
-  AlertCircle,
-  CircleQuestionMark,
-  CloudUpload,
-  Save,
-  X,
-} from 'lucide-react';
+import { Controller, useForm, useWatch } from 'react-hook-form';
+import { AlertCircle, CloudUpload, Save, X } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Field,
@@ -18,16 +12,6 @@ import {
 } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from '@/components/ui/input-group';
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui/hover-card';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
   NativeSelect,
@@ -36,6 +20,8 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { Spinner } from '@/components/ui/spinner';
 import { ProfitCalculator } from './ProfitCalculator';
+import { PriceInput } from '@/shared/components/PriceInput';
+
 import type { Product } from '@/products/interfaces/product.interface';
 import type { Category } from '@/categories/interfaces/category.interface';
 
@@ -175,7 +161,7 @@ export const ProductForm = ({
                 <FieldGroup>
                   <Field className="w-fit">
                     {/* <Input type="text" placeholder="0.00" /> */}
-                    <InputGroup>
+                    {/* <InputGroup>
                       <InputGroupAddon>Bs</InputGroupAddon>
                       <InputGroupInput
                         type="number"
@@ -191,7 +177,31 @@ export const ProductForm = ({
                         min={0}
                         step={0.01}
                       />
-                    </InputGroup>
+                    </InputGroup> */}
+                    <Controller
+                      name="price"
+                      control={control}
+                      rules={{
+                        required: 'El precio es obligatorio',
+                        min: {
+                          value: 0,
+                          message: 'El precio debe ser mayor o igual a 0',
+                        },
+                        pattern: {
+                          value: /^\d+(\.\d{0,2})?$/,
+                          message:
+                            'Ingrese un número válido con hasta 2 decimales.',
+                        },
+                      }}
+                      render={({ field }) => (
+                        <PriceInput
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          onValueBlur={field.onBlur}
+                          isError={!!errors.price}
+                        />
+                      )}
+                    />
                     {errors.price && (
                       <p className="text-sm text-destructive animate-in fade-in slide-in-from-top-1">
                         {errors.price.message}
@@ -201,36 +211,30 @@ export const ProductForm = ({
                   <FieldSeparator />
                   <Field className="w-fit">
                     <FieldLabel>Precio de comparación</FieldLabel>
-                    {/* <Input type="text" placeholder="0.00" /> */}
-                    <InputGroup>
-                      <InputGroupAddon>Bs</InputGroupAddon>
-                      <InputGroupAddon align="inline-end">
-                        <HoverCard>
-                          <HoverCardTrigger>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              type="button"
-                              className="text-muted-foreground"
-                            >
-                              <CircleQuestionMark />
-                            </Button>
-                          </HoverCardTrigger>
-                          <HoverCardContent>
-                            El precio de comparación debe ser mayor al precio
-                            del producto.
-                          </HoverCardContent>
-                        </HoverCard>
-                      </InputGroupAddon>
-                      <InputGroupInput
-                        type="number"
-                        placeholder="0.00"
-                        min={0}
-                        step={0.01}
-                        {...register('compareAtPrice')}
-                        aria-invalid={!!errors.compareAtPrice}
-                      />
-                    </InputGroup>
+                    <Controller
+                      name="compareAtPrice"
+                      control={control}
+                      rules={{
+                        min: {
+                          value: 0,
+                          message: 'El precio debe ser mayor o igual a 0',
+                        },
+                        pattern: {
+                          value: /^\d+(\.\d{0,2})?$/,
+                          message:
+                            'Ingrese un número válido con hasta 2 decimales.',
+                        },
+                      }}
+                      render={({ field }) => (
+                        <PriceInput
+                          value={field.value}
+                          onValueChange={field.onChange}
+                          onValueBlur={field.onBlur}
+                          isError={!!errors.compareAtPrice}
+                          helpText="Para mostrar un precio rebajado, introduce un valor superior a tu precio. A menudo se muestra tachado."
+                        />
+                      )}
+                    />
                     {errors.compareAtPrice && (
                       <p className="text-sm text-destructive animate-in fade-in slide-in-from-top-1">
                         {errors.compareAtPrice.message}
@@ -239,11 +243,52 @@ export const ProductForm = ({
                   </Field>
                   <hr />
                   {/* Costo, Beneficio, margen */}
-                  <ProfitCalculator
-                    costPrice={costPrice}
-                    price={price}
-                    register={register('costPrice')}
-                  />
+                  <div className="flex items-center gap-2">
+                    <Field className="w-fit">
+                      <Controller
+                        name="costPrice"
+                        control={control}
+                        rules={{
+                          min: {
+                            value: 0,
+                            message: 'El precio debe ser mayor o igual a 0',
+                          },
+                          pattern: {
+                            value: /^\d+(\.\d{0,2})?$/,
+                            message:
+                              'Ingrese un número válido con hasta 2 decimales.',
+                          },
+                        }}
+                        render={({ field }) => (
+                          <div className="border border-input px-2 py-0.5 rounded-lg">
+                            <div className="flex items-center gap-2">
+                              <span>Costo</span>
+                              <PriceInput
+                                className="max-w-30"
+                                value={field.value}
+                                onValueChange={field.onChange}
+                                onValueBlur={field.onBlur}
+                                isError={!!errors.costPrice}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      />
+                      {errors.costPrice && (
+                        <p className="text-sm text-destructive animate-in fade-in slide-in-from-top-1">
+                          {errors.costPrice.message}
+                        </p>
+                      )}
+                    </Field>
+                    <ProfitCalculator costPrice={costPrice} price={price} />
+                  </div>
+                  {/* <div className="flex items-center gap-2">
+                    <div className="border border-input px-2 py-0.5 rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <span>Costo</span>
+                      </div>
+                    </div>
+                  </div> */}
                 </FieldGroup>
               </FieldSet>
             </CardContent>

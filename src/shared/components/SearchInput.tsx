@@ -52,7 +52,7 @@ export const SearchInput = ({
         type="search"
         placeholder={placeholder}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onValueChange={(e) => setValue(e.target.value)}
         onKeyDown={handleKeyDown}
       />
       <InputGroupAddon>
