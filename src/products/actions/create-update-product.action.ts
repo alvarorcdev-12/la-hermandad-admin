@@ -1,6 +1,7 @@
-import { laHermandadApi } from '@/api/la-hermandad-api';
-import { sleep } from '@/lib/sleep';
-import type { Product } from '../interfaces/product.interface';
+import { laHermandadApi } from "@/api/la-hermandad-api";
+import { sleep } from "@/lib/sleep";
+
+import type { Product } from "../interfaces/product.interface";
 
 export const createUpdateProductAction = async (
   productLike: Partial<Product> & { categoryId: string | null },
@@ -8,9 +9,9 @@ export const createUpdateProductAction = async (
   await sleep(1500);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, category, ...rest } = productLike;
+  const { id, category, createdAt, updatedAt, ...rest } = productLike;
 
-  const isCrating = id === 'new';
+  const isCrating = id === "new";
 
   const costPrice = rest.costPrice ? Number(rest.costPrice) : null;
   const compareAtPrice = rest.compareAtPrice
@@ -21,8 +22,8 @@ export const createUpdateProductAction = async (
 
   try {
     const { data } = await laHermandadApi<Product>({
-      url: isCrating ? '/products' : `/products/${id}`,
-      method: isCrating ? 'POST' : 'PATCH',
+      url: isCrating ? "/products" : `/products/${id}`,
+      method: isCrating ? "POST" : "PATCH",
       data: {
         ...rest,
         costPrice,
@@ -34,6 +35,6 @@ export const createUpdateProductAction = async (
     return data;
   } catch (error) {
     console.log({ error });
-    throw new Error('Error saving product', { cause: error });
+    throw new Error("Error saving product", { cause: error });
   }
 };
