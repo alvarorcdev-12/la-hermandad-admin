@@ -1,6 +1,7 @@
-import { laHermandadApi } from '@/api/la-hermandad-api';
-import { sleep } from '@/lib/sleep';
-import type { CustomersResponse } from '../interfaces/customers-response.action';
+import { laHermandadApi } from "@/api/la-hermandad-api";
+import { sleep } from "@/lib/sleep";
+import type { CustomersResponse } from "../interfaces/customers-response.interface";
+
 interface Options {
   page?: number;
   limit?: number;
@@ -15,21 +16,23 @@ export const getCustomersPaginationAction = async (
 ): Promise<CustomersResponse> => {
   await sleep(1500);
 
-  try {
-    const { page, limit, q, sort, direction } = options;
+  const { page = 1, limit = 10, q, sort, direction } = options;
 
-    const { data } = await laHermandadApi.get<CustomersResponse>('/customers', {
+  try {
+    const { data } = await laHermandadApi.get<CustomersResponse>("/customers", {
       params: {
         page,
         limit,
         q,
-
         sort,
         direction,
       },
     });
+
     return data;
   } catch (error) {
-    throw error;
+    console.log({ error });
+
+    throw new Error("Error getting customers", { cause: error });
   }
 };

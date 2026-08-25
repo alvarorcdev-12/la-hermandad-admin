@@ -1,16 +1,16 @@
-import { laHermandadApi } from '@/api/la-hermandad-api';
-import type { Customer } from '../interfaces/customer.interface';
-import { sleep } from '@/lib/sleep';
+import { laHermandadApi } from "@/api/la-hermandad-api";
+
+import type { Customer } from "../interfaces/customer.interface";
 
 const emptyCustomer: Customer = {
-  id: 'new',
-  displayName: '',
-  firstName: '',
+  id: "new",
+  displayName: "",
+  firstName: "",
   lastName: null,
   email: null,
   phone: null,
   note: null,
-  amountSpent: '0',
+  amountSpent: "0",
   lastOrder: null,
   numberOfOrders: 0,
   canDelete: false,
@@ -18,9 +18,7 @@ const emptyCustomer: Customer = {
 };
 
 export const getCustomerByIdAction = async (id: string): Promise<Customer> => {
-  await sleep(1500);
-
-  if (id === 'new') {
+  if (id === "new") {
     return emptyCustomer;
   }
 
@@ -29,6 +27,6 @@ export const getCustomerByIdAction = async (id: string): Promise<Customer> => {
     return data;
   } catch (error) {
     console.log({ error });
-    throw new Error(`Error getting customer with id: ${id}`);
+    throw new Error(`Error getting customer with id: ${id}`, { cause: error });
   }
 };
