@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Link } from 'react-router';
-import { Home, Menu, Settings, Tag, User } from 'lucide-react';
+import { useState } from "react";
+import { Link } from "react-router";
+import { Home, Inbox, Menu, Settings, Tag, User } from "lucide-react";
 
-import { NavItem } from './NavItem';
-import { Button } from '@/components/ui/button';
+import { NavItem } from "./NavItem";
+import { Button } from "@/components/ui/button";
 
 export const Sidebar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,7 +25,7 @@ export const Sidebar = () => {
         className={`
                 fixed inset-y-0 left-0 z-70 w-64 bg-background transform transition-transform duration-200 ease-in-out
                 lg:translate-x-0 lg:static lg:w-64 border-r
-                ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+                ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
             `}
       >
         <div className="h-full flex flex-col">
@@ -57,17 +57,21 @@ export const Sidebar = () => {
                   >
                     Inicio
                   </NavItem>
-                  {/* <NavItem to="/admin/orders" icon={Inbox}>
+                  <NavItem
+                    to="/admin/orders"
+                    Icon={Inbox}
+                    onNavigation={handleNavigation}
+                  >
                     Pedidos
-                  </NavItem> */}
+                  </NavItem>
                   <NavItem
                     to="/admin/products"
                     Icon={Tag}
                     onNavigation={handleNavigation}
                     subItems={[
                       {
-                        to: '/admin/categories',
-                        children: 'Categorías',
+                        to: "/admin/categories",
+                        children: "Categorías",
                       },
                     ]}
                   >

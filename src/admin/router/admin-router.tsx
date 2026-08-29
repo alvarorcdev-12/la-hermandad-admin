@@ -1,18 +1,19 @@
-import { AuthenticatedRoute } from '@/auth/components/ProtectedRoutes';
-import { lazy } from 'react';
-import type { RouteObject } from 'react-router';
+import { AuthenticatedRoute } from "@/auth/components/ProtectedRoutes";
+import { lazy } from "react";
+import type { RouteObject } from "react-router";
 
-const AdminLayout = lazy(() => import('../layout/AuthLayout'));
-const DashboardPage = lazy(() => import('../pages/dashboard/DashboardPage'));
-const ProductsPage = lazy(() => import('../pages/products/ProductsPage'));
-const ProductPage = lazy(() => import('../pages/product/ProductPage'));
-const CategoriesPage = lazy(() => import('../pages/categories/CategoriesPage'));
-const CategoryPage = lazy(() => import('../pages/category/CategoryPage'));
-const CustomersPage = lazy(() => import('../pages/customers/CustomersPage'));
-const CustomerPage = lazy(() => import('../pages/customer/CustomerPage'));
+const AdminLayout = lazy(() => import("../layout/AuthLayout"));
+const DashboardPage = lazy(() => import("../pages/dashboard/DashboardPage"));
+const ProductsPage = lazy(() => import("../pages/products/ProductsPage"));
+const ProductPage = lazy(() => import("../pages/product/ProductPage"));
+const CategoriesPage = lazy(() => import("../pages/categories/CategoriesPage"));
+const CategoryPage = lazy(() => import("../pages/category/CategoryPage"));
+const CustomersPage = lazy(() => import("../pages/customers/CustomersPage"));
+const CustomerPage = lazy(() => import("../pages/customer/CustomerPage"));
+const OrdersPage = lazy(() => import("../pages/orders/OrdersPage"));
 
 export const adminRouter: RouteObject = {
-  path: '/admin',
+  path: "/admin",
   element: (
     <AuthenticatedRoute>
       <AdminLayout />
@@ -24,28 +25,32 @@ export const adminRouter: RouteObject = {
       element: <DashboardPage />,
     },
     {
-      path: 'products',
+      path: "products",
       element: <ProductsPage />,
     },
     {
-      path: 'products/:id',
+      path: "products/:id",
       element: <ProductPage />,
     },
     {
-      path: 'categories',
+      path: "categories",
       element: <CategoriesPage />,
     },
     {
-      path: 'categories/:id',
+      path: "categories/:id",
       element: <CategoryPage />,
     },
     {
-      path: 'customers',
+      path: "customers",
       element: <CustomersPage />,
     },
     {
-      path: 'customers/:id',
+      path: "customers/:id",
       element: <CustomerPage />,
+    },
+    {
+      path: "orders",
+      element: <OrdersPage />,
     },
   ],
 };
