@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { Link } from "react-router";
+import { useQuery } from "@tanstack/react-query";
 import { Inbox, Plus } from "lucide-react";
 
 import { AdminTitle } from "@/admin/components/AdminTitle";
@@ -11,6 +13,11 @@ import { OrderStats } from "@/orders/components/OrderStats";
 import { SearchInput } from "@/shared/components/SearchInput";
 
 import { useOrdersPagination } from "@/orders/hooks/useOrdersPagination";
+
+import { getOrdersStatsAction } from "@/orders/actions/get-orders-stats.action";
+import { mapDateRangeToApiParams } from "@/lib/date-filters";
+
+import type { DateRange } from "react-day-picker";
 
 const ordersSortOptions: SortOption[] = [
   {
@@ -48,7 +55,17 @@ const ordersSortOptions: SortOption[] = [
 ];
 
 const OrdersPage = () => {
+  const [date, setDate] = useState<DateRange | undefined>();
+
   const { data, isLoading } = useOrdersPagination();
+
+  const dateParams = mapDateRangeToApiParams(date);
+
+  const { data: stats, isLoading: isLoadingStats } = useQuery({
+    queryKey: ["orders-stats", dateParams],
+    queryFn: () =>
+      getOrdersStatsAction(dateParams.startDate, dateParams.endDate),
+  });
 
   return (
     <>
@@ -64,7 +81,12 @@ const OrdersPage = () => {
       </div>
       {/* OrderStats */}
       <div className="mt-4">
-        <OrderStats />
+        <OrderStats
+          date={date}
+          stats={stats}
+          isLoading={isLoadingStats}
+          onDateChange={setDate}
+        />
       </div>
       <div className="mt-6">
         <Card className="p-0">
