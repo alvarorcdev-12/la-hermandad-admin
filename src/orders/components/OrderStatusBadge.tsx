@@ -18,7 +18,7 @@ export const OrderStatusBadge = ({ status }: Props) => {
     CLOSED: {
       label: "Cerrado",
       color:
-        "text-neutral-800 bg-neutral-200 dark:text-neutral-200 dark:bg-neutral-700/30",
+        "text-neutral-800 bg-neutral-200 dark:text-neutral-200 dark:bg-muted",
       Icon: <CircleCheck data-icon="inline-start" />,
     },
     CANCELLED: {

@@ -24,7 +24,7 @@ export const OrderFinancialStatusBadge = ({ status }: Props) => {
     PENDING: {
       label: "Pendiente",
       color:
-        "text-neutral-800 bg-neutral-200 dark:text-neutral-200 dark:bg-neutral-800/40",
+        "text-neutral-800 bg-neutral-200 dark:text-neutral-200 dark:bg-muted",
       Icon: <CircleOff data-icon="inline-start" />,
     },
   };

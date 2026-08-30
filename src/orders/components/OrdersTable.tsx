@@ -13,12 +13,13 @@ import { OrderFinancialStatusBadge } from "./OrderFinancialStatusBadge";
 import { OrderStatusBadge } from "./OrderStatusBadge";
 
 import { Formatter } from "@/lib/formatter";
+import type { Order } from "../interfaces/order.interface";
 
-// interface Props {
-//   customers: Customer[];
-// }
+interface Props {
+  orders: Order[];
+}
 
-export const OrdersTable = () => {
+export const OrdersTable = ({ orders }: Props) => {
   return (
     <Table>
       <TableHeader className="bg-muted/50">
@@ -43,74 +44,44 @@ export const OrdersTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell>
-            <Checkbox />
-          </TableCell>
-          <TableCell>
-            <Link
-              className="font-medium leading-none hover:underline"
-              to="/orders/1231"
-            >
-              #1001
-            </Link>
-          </TableCell>
-          <TableCell className="capitalize">
-            {Formatter.dateTime(new Date())}
-          </TableCell>
-          <TableCell>
-            <span>Juan Carlos Perez</span>
-          </TableCell>
-          <TableCell className="text-end">
-            {Formatter.currency("120.00")}
-          </TableCell>
-          <TableCell className="pl-10">
-            <OrderFinancialStatusBadge status="PAID" />
-          </TableCell>
-          <TableCell>
-            <OrderStatusBadge status="CLOSED" />
-          </TableCell>
-          <TableCell>
-            <span>3 Items</span>
-          </TableCell>
-          <TableCell>
-            <span>QR</span>
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell>
-            <Checkbox />
-          </TableCell>
-          <TableCell>
-            <Link
-              className="font-medium leading-none hover:underline"
-              to="/orders/1231"
-            >
-              #1002
-            </Link>
-          </TableCell>
-          <TableCell className="capitalize">
-            {Formatter.dateTime(new Date())}
-          </TableCell>
-          <TableCell>
-            <span>Alvaro Sanchez</span>
-          </TableCell>
-          <TableCell className="text-end">
-            {Formatter.currency("120.00")}
-          </TableCell>
-          <TableCell className="pl-10">
-            <OrderFinancialStatusBadge status="PARTIALLY_PAID" />
-          </TableCell>
-          <TableCell>
-            <OrderStatusBadge status="OPEN" />
-          </TableCell>
-          <TableCell>
-            <span>5 Items</span>
-          </TableCell>
-          <TableCell>
-            <span>QR</span>
-          </TableCell>
-        </TableRow>
+        {orders.map((order) => (
+          <TableRow key={order.id}>
+            <TableCell>
+              <Checkbox />
+            </TableCell>
+            <TableCell>
+              <Link
+                className="font-medium leading-none hover:underline"
+                to={`/orders/${order.id}`}
+              >
+                {order.name}
+              </Link>
+            </TableCell>
+            <TableCell className="capitalize">
+              {Formatter.dateTime(order.createdAt)}
+            </TableCell>
+            <TableCell>
+              <span>
+                {order.customer?.firstName} {order.customer?.lastName}
+              </span>
+            </TableCell>
+            <TableCell className="text-end">
+              {Formatter.currency(order.totalPrice)}
+            </TableCell>
+            <TableCell className="pl-10">
+              <OrderFinancialStatusBadge status={order.financialStatus} />
+            </TableCell>
+            <TableCell>
+              <OrderStatusBadge status={order.status} />
+            </TableCell>
+            <TableCell>
+              <span>{order.itemCount} Items</span>
+            </TableCell>
+            <TableCell>
+              <span>{"QR"}</span>
+            </TableCell>
+          </TableRow>
+        ))}
       </TableBody>
     </Table>
   );

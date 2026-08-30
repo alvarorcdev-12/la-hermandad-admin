@@ -10,6 +10,8 @@ import { OrdersTable } from "@/orders/components/OrdersTable";
 import { OrderStats } from "@/orders/components/OrderStats";
 import { SearchInput } from "@/shared/components/SearchInput";
 
+import { useOrdersPagination } from "@/orders/hooks/useOrdersPagination";
+
 const ordersSortOptions: SortOption[] = [
   {
     label: "Número de pedido",
@@ -46,6 +48,8 @@ const ordersSortOptions: SortOption[] = [
 ];
 
 const OrdersPage = () => {
+  const { data, isLoading } = useOrdersPagination();
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -69,9 +73,9 @@ const OrdersPage = () => {
               <DataStatusFilter
                 options={[
                   { value: undefined, label: "Todos" },
-                  { value: "ACTIVE", label: "Activos" },
-                  { value: "DRAFT", label: "Borrador" },
-                  { value: "ARCHIVED", label: "Archivados" },
+                  { value: "OPEN", label: "Abiertos" },
+                  { value: "CLOSED", label: "Cerrados" },
+                  { value: "CANCELLED", label: "Cancelados" },
                 ]}
               />
               <div className="flex items-center gap-2">
@@ -86,7 +90,7 @@ const OrdersPage = () => {
               </div>
             </div>
             {/* OrdersTable */}
-            <OrdersTable />
+            <OrdersTable orders={data?.results || []} />
           </CardContent>
         </Card>
       </div>
