@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Search } from 'lucide-react';
 
 import {
@@ -5,43 +6,44 @@ import {
   InputGroupAddon,
   InputGroupInput,
 } from '@/components/ui/input-group';
-import { useEffect, useState, type KeyboardEvent } from 'react';
 
 interface Props {
   className?: string;
   placeholder?: string;
-  query?: string;
-  onQueryChange?: (query: string) => void;
+
+  onQueryChange: (query: string) => void;
 }
 
 export const SearchInput = ({
   className,
-  placeholder = 'Buscar...',
-  query = '',
+  placeholder = 'Buscar',
   onQueryChange,
 }: Props) => {
-  const [value, setValue] = useState(query);
+  const isFirstRender = useRef(true);
+
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
-    setValue(query);
-  }, [query]);
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
 
-  useEffect(() => {
     const timeoutId = setTimeout(() => {
-      onQueryChange(value);
+      onQueryChange(query);
     }, 600);
 
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [value, onQueryChange]);
+  }, [query, onQueryChange]);
 
   const handleSearch = () => {
-    onQueryChange(value);
+    onQueryChange(query);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key == 'Enter') {
       handleSearch();
     }
   };
@@ -51,8 +53,8 @@ export const SearchInput = ({
       <InputGroupInput
         type="search"
         placeholder={placeholder}
-        value={value}
-        onValueChange={(e) => setValue(e.target.value)}
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
         onKeyDown={handleKeyDown}
       />
       <InputGroupAddon>

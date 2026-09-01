@@ -11,11 +11,19 @@ export const DataStatusFilter = ({ options }: Props) => {
   const queryStatus = searchParams.get('status') ?? undefined;
 
   const handleStatusChange = (status: string | undefined) => {
-    if (status) {
-      setSearchParams({ status });
-    } else {
-      setSearchParams({});
-    }
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+
+      if (status) {
+        params.set('status', status);
+      } else {
+        params.delete('status');
+      }
+
+      params.set('page', '1');
+
+      return params;
+    });
   };
 
   return (

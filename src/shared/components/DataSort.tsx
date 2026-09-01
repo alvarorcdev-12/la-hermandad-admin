@@ -1,5 +1,6 @@
 import { useSearchParams } from 'react-router';
 import { ArrowUpDown } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -11,12 +12,9 @@ import {
 
 export interface SortOption {
   label: string;
-
   sort: string;
-
   directions: {
     value: 'asc' | 'desc';
-
     label: string;
   }[];
 }
@@ -32,12 +30,15 @@ export const DataSort = ({ options }: Props) => {
   const queryDirection = searchParams.get('direction') ?? 'desc';
 
   const handleSortChange = (sort: string, direction: string) => {
-    const params = new URLSearchParams(searchParams);
+    setSearchParams((prevParams) => {
+      const params = new URLSearchParams(prevParams);
+      params.set('sort', sort);
+      params.set('direction', direction);
 
-    params.set('sort', sort);
-    params.set('direction', direction);
+      params.set('page', '1');
 
-    setSearchParams(params);
+      return params;
+    });
   };
 
   return (
