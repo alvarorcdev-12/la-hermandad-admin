@@ -30,7 +30,7 @@ export const OrderStats = ({ date, stats, isLoading, onDateChange }: Props) => {
   return (
     <Card className="p-0">
       <CardContent className="p-0">
-        <div className="flex items-center">
+        <div className="flex items-center h-20 min-h-20">
           {/* Stats Data selector*/}
           <div className="flex items-center p-4 w-1/2 gap-2">
             {/* <Calendar className="size-4" />
