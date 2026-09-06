@@ -1,9 +1,6 @@
-import { Button } from './components/ui/button';
+import { RouterProvider } from 'react-router';
+import { appRouter } from './presentation/app.router';
 
 export const LaHermandadAdminApp = () => {
-  return (
-    <div>
-      <Button>Click !!</Button>
-    </div>
-  );
+  return <RouterProvider router={appRouter} />;
 };
