@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useAuthStore } from '@/presentation/stores/auth.store';
 // import { useAuthStore } from '@/auth/store/auth.store';
 
 interface FormInputs {
@@ -19,7 +20,7 @@ interface FormInputs {
 
 export function LoginPage() {
   const navigate = useNavigate();
-  // const login = useAuthStore((state) => state.login);
+  const login = useAuthStore((state) => state.login);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isShowCredentialError, setIsShowCredentialError] = useState(false);
@@ -48,12 +49,13 @@ export function LoginPage() {
   const onSubmit = async (data: FormInputs) => {
     setIsLoading(true);
 
-    // const ok = await login(data.email, data.password);
+    const ok = await login(data.email, data.password);
 
-    // if (ok) {
-    //   navigate('/admin');
-    //   return;
-    // }
+    if (ok) {
+      navigate('/admin');
+      return;
+    }
+
     setIsLoading(false);
     setIsShowCredentialError(true);
 

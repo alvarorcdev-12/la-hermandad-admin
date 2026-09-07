@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { LaHermandadAdminApp } from './LaHermandadAdminApp.tsx';
+import { LaHermandadAdminApp } from './presentation/LaHermandadAdminApp.tsx';
 
 import './index.css';
 
