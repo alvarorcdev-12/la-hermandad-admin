@@ -49,6 +49,13 @@ export const appRouter = createBrowserRouter([
             element: <m.default />,
           })),
       },
+      {
+        path: 'products',
+        lazy: () =>
+          import('./pages/admin/products/ProductsPage').then((m) => ({
+            element: <m.default />,
+          })),
+      },
     ],
   },
 ]);
