@@ -9,8 +9,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+
 import { useAuthStore } from '@/presentation/store/auth.store';
-// import { useAuthStore } from '@/auth/store/auth.store';
 
 interface FormInputs {
   email: string;
@@ -18,7 +18,7 @@ interface FormInputs {
   remember: boolean;
 }
 
-export function LoginPage() {
+const LoginPage = () => {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
 
@@ -236,4 +236,6 @@ export function LoginPage() {
       </p>
     </div>
   );
-}
+};
+
+export default LoginPage;

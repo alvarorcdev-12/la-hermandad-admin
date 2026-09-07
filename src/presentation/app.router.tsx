@@ -1,28 +1,34 @@
-import { createBrowserRouter, Navigate } from 'react-router';
+import { lazy } from 'react';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router';
 import {
   AuthenticatedRoute,
   NotAuthenticatedRoute,
 } from './components/protected/ProtectedRoutes';
 
-export const appRouter = createBrowserRouter([
+// Layouts
+const AuthLayout = lazy(() => import('./layouts/AuthLayout'));
+const AdminLayout = lazy(() => import('./layouts/AdminLayout'));
+// Pages
+const LoginPage = lazy(() => import('./pages/auth/login/LoginPage'));
+const DashboardPage = lazy(
+  () => import('./pages/admin/dashboard/DashboardPage'),
+);
+const ProductsPage = lazy(() => import('./pages/admin/products/ProductsPage'));
+const ProductPage = lazy(() => import('./pages/admin/product/ProductPage'));
+
+const appRouter = createBrowserRouter([
   // AUTH
   {
     path: '/auth',
-    lazy: () =>
-      import('./layouts/AuthLayout').then((m) => ({
-        element: (
-          <NotAuthenticatedRoute>
-            <m.default />
-          </NotAuthenticatedRoute>
-        ),
-      })),
+    element: (
+      <NotAuthenticatedRoute>
+        <AuthLayout />
+      </NotAuthenticatedRoute>
+    ),
     children: [
       {
         path: 'login',
-        lazy: () =>
-          import('./pages/auth/login/LoginPage').then((m) => ({
-            element: <m.LoginPage />,
-          })),
+        element: <LoginPage />,
       },
       {
         index: true,
@@ -33,29 +39,28 @@ export const appRouter = createBrowserRouter([
   // ADMIN
   {
     path: '/admin',
-    lazy: () =>
-      import('./layouts/AdminLayout').then((m) => ({
-        element: (
-          <AuthenticatedRoute>
-            <m.default />
-          </AuthenticatedRoute>
-        ),
-      })),
+    element: (
+      <AuthenticatedRoute>
+        <AdminLayout />
+      </AuthenticatedRoute>
+    ),
     children: [
       {
         index: true,
-        lazy: () =>
-          import('./pages/admin/dashboard/DashboardPage').then((m) => ({
-            element: <m.default />,
-          })),
+        element: <DashboardPage />,
       },
       {
         path: 'products',
-        lazy: () =>
-          import('./pages/admin/products/ProductsPage').then((m) => ({
-            element: <m.default />,
-          })),
+        element: <ProductsPage />,
+      },
+      {
+        path: 'products/:id',
+        element: <ProductPage />,
       },
     ],
   },
 ]);
+
+export const AppRouter = () => {
+  return <RouterProvider router={appRouter} />;
+};

@@ -1,4 +1,3 @@
-import { RouterProvider } from 'react-router';
 import {
   QueryClient,
   QueryClientProvider,
@@ -6,9 +5,10 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { appRouter } from './app.router';
-import { useAuthStore } from './store/auth.store';
+import { AppRouter } from './app.router';
 import { LoadingScreen } from './components/shared/LoadingScreen';
+
+import { useAuthStore } from './store/auth.store';
 
 const queryClient = new QueryClient();
 
@@ -32,7 +32,7 @@ export const LaHermandadAdminApp = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <CheckAuthProvider>
-        <RouterProvider router={appRouter} />
+        <AppRouter />
       </CheckAuthProvider>
 
       <ReactQueryDevtools initialIsOpen={false} />
