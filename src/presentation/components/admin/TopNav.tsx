@@ -9,7 +9,7 @@ import {
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ProfileMenu } from './ProfileMenu';
 
-import { useAuthStore } from '@/presentation/stores/auth.store';
+import { useAuthStore } from '@/presentation/store/auth.store';
 // import { ThemeToggle } from '@/presentation/components/ThemeToggle';
 
 // import { useAuthStore } from '@/auth/store/auth.store';

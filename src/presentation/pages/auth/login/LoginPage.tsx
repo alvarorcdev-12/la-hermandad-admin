@@ -9,7 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import { useAuthStore } from '@/presentation/stores/auth.store';
+import { useAuthStore } from '@/presentation/store/auth.store';
 // import { useAuthStore } from '@/auth/store/auth.store';
 
 interface FormInputs {

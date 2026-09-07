@@ -1,11 +1,20 @@
 import { createBrowserRouter, Navigate } from 'react-router';
+import {
+  AuthenticatedRoute,
+  NotAuthenticatedRoute,
+} from './components/protected/ProtectedRoutes';
 
 export const appRouter = createBrowserRouter([
+  // AUTH
   {
     path: '/auth',
     lazy: () =>
       import('./layouts/AuthLayout').then((m) => ({
-        element: <m.default />,
+        element: (
+          <NotAuthenticatedRoute>
+            <m.default />
+          </NotAuthenticatedRoute>
+        ),
       })),
     children: [
       {
@@ -21,11 +30,16 @@ export const appRouter = createBrowserRouter([
       },
     ],
   },
+  // ADMIN
   {
     path: '/admin',
     lazy: () =>
       import('./layouts/AdminLayout').then((m) => ({
-        element: <m.default />,
+        element: (
+          <AuthenticatedRoute>
+            <m.default />
+          </AuthenticatedRoute>
+        ),
       })),
     children: [
       {

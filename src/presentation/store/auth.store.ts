@@ -12,8 +12,6 @@ type AuthState = {
   authStatus: AuthStatus;
 
   // Getters
-  fullName: () => string;
-  email: () => string;
   isOwner: () => boolean;
 
   // Acciones
@@ -26,17 +24,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   user: null,
   token: null,
   authStatus: 'checking',
-
-  fullName: () => {
-    const { user } = get();
-    if (!user) return '';
-    return `${user.firstName} ${user.lastName ?? ''}`;
-  },
-  email: () => {
-    const { user } = get();
-    if (!user) return '';
-    return user.email;
-  },
 
   isOwner: () => {
     const { user } = get();
