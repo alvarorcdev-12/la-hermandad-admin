@@ -361,7 +361,7 @@ export const ProductForm = ({
           </Card>
         </div>
       </div>
-      <div className="flex items-center justify-end gap-2 my-5">
+      <div className="flex items-center justify-end gap-2 py-5">
         <Link
           to="/admin/products"
           className={buttonVariants({ variant: 'outline' })}
