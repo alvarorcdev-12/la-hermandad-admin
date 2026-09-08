@@ -123,9 +123,14 @@ export const ProductForm = ({
                     {...register('categoryId')}
                     aria-invalid={!!errors.categoryId}
                   >
-                    <NativeSelectOption disabled>
+                    <NativeSelectOption value="" disabled>
                       Elija una categoría de producto
                     </NativeSelectOption>
+                    {categories?.map((category) => (
+                      <NativeSelectOption key={category.id} value={category.id}>
+                        {category.name}
+                      </NativeSelectOption>
+                    ))}
                   </NativeSelect>
                 </Field>
               </FieldGroup>
@@ -356,7 +361,7 @@ export const ProductForm = ({
           </Card>
         </div>
       </div>
-      <div className="flex items-center justify-end gap-2 mt-4">
+      <div className="flex items-center justify-end gap-2 my-5">
         <Link
           to="/admin/products"
           className={buttonVariants({ variant: 'outline' })}

@@ -1,14 +1,14 @@
 import { Navigate, useNavigate, useParams } from 'react-router';
-import { useMutation, useQuery } from '@tanstack/react-query';
 import { Tag } from 'lucide-react';
 
-import { AdminTitle } from '@/presentation/components/admin/AdminTitle';
 import { toast } from '@/components/ui/toast';
-import { ProductStatusBadge } from '@/presentation/components/products/ProductStatusBadge';
-import { LoadingScreen } from '@/presentation/components/shared/LoadingScreen';
+import { AdminTitle } from '@/presentation/components/admin/AdminTitle';
 import { ProductForm } from './ui/ProductForm';
-import { getProductByIdAction } from '@/actions/products/get-product-by-id.action';
-import { createUpdateProductAction } from '@/actions/products/create-update-product.action';
+import { LoadingScreen } from '@/presentation/components/shared/LoadingScreen';
+import { ProductStatusBadge } from '@/presentation/components/products/ProductStatusBadge';
+
+import { useCategories } from '@/presentation/hooks/categories/useCategories';
+import { useProduct } from '@/presentation/hooks/product/useProduct';
 
 import type { Product } from '@/domain/entities/product.entity';
 
@@ -17,20 +17,16 @@ const ProductPage = () => {
 
   const navigate = useNavigate();
 
-  const {
-    data: product,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ['product', { id }],
-    queryFn: () => getProductByIdAction(id),
-    retry: false,
-    staleTime: 1000 * 60 * 5,
-  });
+  const isCreating = id === 'new';
 
-  const mutation = useMutation({
-    mutationFn: createUpdateProductAction,
-  });
+  const { data: product, isLoading, isError, mutation } = useProduct(id || '');
+
+  const { data: categoriesData, isLoading: isLoadingCategories } =
+    useCategories({ page: 1, limit: 20 });
+
+  const title = isCreating
+    ? 'Agregar producto'
+    : product?.title || 'Editar producto';
 
   const handleSubmit = async (
     productForm: Partial<Product> & { categoryId: string | null },
@@ -40,10 +36,6 @@ const ProductPage = () => {
         toast.add({
           type: 'success',
           title: 'Producto guardado.',
-          positionerProps: {
-            align: 'center',
-            side: 'bottom',
-          },
         });
         navigate(`/admin/products/${data.id}`, { replace: true });
       },
@@ -52,10 +44,6 @@ const ProductPage = () => {
         toast.add({
           type: 'error',
           title: 'Error al guardar producto.',
-          positionerProps: {
-            align: 'center',
-            side: 'bottom',
-          },
         });
       },
     });
@@ -65,7 +53,7 @@ const ProductPage = () => {
     return <Navigate to="/admin/products" replace />;
   }
 
-  if (isLoading) {
+  if (isLoading || isLoadingCategories) {
     return <LoadingScreen />;
   }
 
@@ -77,19 +65,15 @@ const ProductPage = () => {
     <div className="max-w-6xl w-full mx-auto">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <AdminTitle
-            title="Agregar producto"
-            Icon={Tag}
-            prevHref="/admin/products"
-          />
-          <ProductStatusBadge status="ACTIVE" />
+          <AdminTitle title={title} Icon={Tag} prevHref="/admin/products" />
+          {!isCreating && <ProductStatusBadge status={product.status} />}
         </div>
       </div>
       <div className="mt-4">
         <ProductForm
           product={product}
-          categories={[]}
-          isPending={false}
+          categories={categoriesData?.results || []}
+          isPending={mutation.isPending}
           onSubmit={handleSubmit}
         />
       </div>
