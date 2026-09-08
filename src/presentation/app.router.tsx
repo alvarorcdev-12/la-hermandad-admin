@@ -15,6 +15,9 @@ const DashboardPage = lazy(
 );
 const ProductsPage = lazy(() => import('./pages/admin/products/ProductsPage'));
 const ProductPage = lazy(() => import('./pages/admin/product/ProductPage'));
+const CategoriesPage = lazy(
+  () => import('./pages/admin/categories/CategoriesPage'),
+);
 
 const appRouter = createBrowserRouter([
   // AUTH
@@ -56,6 +59,10 @@ const appRouter = createBrowserRouter([
       {
         path: 'products/:id',
         element: <ProductPage />,
+      },
+      {
+        path: 'categories',
+        element: <CategoriesPage />,
       },
     ],
   },
