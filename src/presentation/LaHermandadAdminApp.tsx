@@ -9,6 +9,7 @@ import { AppRouter } from './app.router';
 import { LoadingScreen } from './components/shared/LoadingScreen';
 
 import { useAuthStore } from './store/auth.store';
+import { Toaster } from '@/components/ui/toast';
 
 const queryClient = new QueryClient();
 
@@ -34,7 +35,7 @@ export const LaHermandadAdminApp = () => {
       <CheckAuthProvider>
         <AppRouter />
       </CheckAuthProvider>
-
+      <Toaster />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );

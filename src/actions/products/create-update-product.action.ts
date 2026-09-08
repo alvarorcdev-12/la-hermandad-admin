@@ -5,12 +5,12 @@ import type { ProductDB } from '@/infrastructure/interfaces/products-response.in
 import type { Product } from '@/domain/entities/product.entity';
 
 export const createUpdateProductAction = async (
-  productLike: Partial<Product> & { categoryId: string | null },
+  productForm: Partial<Product> & { categoryId: string | null },
 ): Promise<Product> => {
   // await sleep(1500);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { id, category, createdAt, updatedAt, ...rest } = productLike;
+  const { id, category, createdAt, updatedAt, ...rest } = productForm;
 
   const isCrating = id === 'new';
 
