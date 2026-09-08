@@ -24,13 +24,14 @@ import { PriceInput } from '@/presentation/components/shared/PriceInput';
 import { ProfitCalculator } from './ProfitCalculator';
 
 import type { Product } from '@/domain/entities/product.entity';
+import type { Category } from '@/domain/entities/category.entity';
 
 interface FormInputs extends Product {
   categoryId: string | null;
 }
 
 interface Props {
-  categories: any[];
+  categories: Category[];
   product: Product;
   isPending: boolean;
 

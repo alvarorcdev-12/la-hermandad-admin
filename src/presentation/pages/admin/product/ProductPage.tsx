@@ -136,35 +136,37 @@ const ProductPage = () => {
             <AdminTitle title={title} Icon={Tag} prevHref="/admin/products" />
             {!isCreating && <ProductStatusBadge status={product.status} />}
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              render={
-                <Button variant="outline" size="sm">
-                  Más acciones
-                  <ChevronDown />
-                </Button>
-              }
-            />
-            <DropdownMenuContent className="w-48" align="center">
-              <DropdownMenuItem
-                onClick={() => {
-                  setSelectedAction('archived');
-                  setOpenDialog(true);
-                }}
-              >
-                <Archive /> Archivar producto
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                variant="destructive"
-                onClick={() => {
-                  setSelectedAction('delete');
-                  setOpenDialog(true);
-                }}
-              >
-                <Trash /> Eliminar producto
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {!isCreating && (
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={
+                  <Button variant="outline" size="sm">
+                    Más acciones
+                    <ChevronDown />
+                  </Button>
+                }
+              />
+              <DropdownMenuContent className="w-48" align="center">
+                <DropdownMenuItem
+                  onClick={() => {
+                    setSelectedAction('archived');
+                    setOpenDialog(true);
+                  }}
+                >
+                  <Archive /> Archivar producto
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  variant="destructive"
+                  onClick={() => {
+                    setSelectedAction('delete');
+                    setOpenDialog(true);
+                  }}
+                >
+                  <Trash /> Eliminar producto
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
         <div className="mt-4">
           <ProductForm

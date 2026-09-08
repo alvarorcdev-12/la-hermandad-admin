@@ -18,6 +18,7 @@ const ProductPage = lazy(() => import('./pages/admin/product/ProductPage'));
 const CategoriesPage = lazy(
   () => import('./pages/admin/categories/CategoriesPage'),
 );
+const CategoryPage = lazy(() => import('./pages/admin/category/CategoryPage'));
 
 const appRouter = createBrowserRouter([
   // AUTH
@@ -63,6 +64,10 @@ const appRouter = createBrowserRouter([
       {
         path: 'categories',
         element: <CategoriesPage />,
+      },
+      {
+        path: 'categories/:id',
+        element: <CategoryPage />,
       },
     ],
   },
