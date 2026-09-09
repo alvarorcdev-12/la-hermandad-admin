@@ -71,6 +71,10 @@ const appRouter = createBrowserRouter([
       },
     ],
   },
+  {
+    index: true,
+    element: <Navigate to="/admin" />,
+  },
 ]);
 
 export const AppRouter = () => {
