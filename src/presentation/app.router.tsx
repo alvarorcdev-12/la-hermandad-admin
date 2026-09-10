@@ -23,6 +23,7 @@ const CustomersPage = lazy(
   () => import('./pages/admin/customers/CustomersPage'),
 );
 const CustomerPage = lazy(() => import('./pages/admin/customer/CustomerPage'));
+const OrdersPage = lazy(() => import('./pages/admin/orders/OrdersPage'));
 
 const appRouter = createBrowserRouter([
   // AUTH
@@ -80,6 +81,10 @@ const appRouter = createBrowserRouter([
       {
         path: 'customers/:id',
         element: <CustomerPage />,
+      },
+      {
+        path: 'orders',
+        element: <OrdersPage />,
       },
     ],
   },
