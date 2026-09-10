@@ -5,8 +5,9 @@ import type { CustomerDB } from '@/infrastructure/interfaces/customers-response.
 import type { Customer } from '@/domain/entities/customer.entity';
 
 export const createUpdateCustomerAction = async (
-  productLike: Partial<Customer>,
+  customerForm: Partial<Customer>,
 ): Promise<Customer> => {
+  console.log('🚀 ~ createUpdateCustomerAction ~ customerForm:', customerForm);
   // await sleep(1500);
 
   const {
@@ -18,13 +19,17 @@ export const createUpdateCustomerAction = async (
     lastOrder,
     numberOfOrders,
     ...rest
-  } = productLike;
+  } = customerForm;
 
   const isCrating = id === 'new';
 
-  if (rest.phone) {
-    rest.phone = rest.phone.startsWith('+') ? rest.phone : `+591${rest.phone}`;
-  }
+  const phone = rest.phone
+    ? rest.phone.startsWith('+')
+      ? rest.phone
+      : `+591${rest.phone}`
+    : null;
+
+  const email = rest.email ?? null;
 
   try {
     const { data } = await laHermandadApi<CustomerDB>({
@@ -32,6 +37,8 @@ export const createUpdateCustomerAction = async (
       method: isCrating ? 'POST' : 'PATCH',
       data: {
         ...rest,
+        phone,
+        email,
       },
     });
 
