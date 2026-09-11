@@ -5,11 +5,11 @@ import {
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { AppRouter } from './app.router';
-import { LoadingScreen } from './components/shared/LoadingScreen';
-
-import { useAuthStore } from './store/auth.store';
 import { Toaster } from '@/components/ui/toast';
+import { AppRouter } from './presentation/app.router';
+import { LoadingScreen } from './presentation/components/shared/LoadingScreen';
+
+import { useAuthStore } from './presentation/store/auth.store';
 
 const queryClient = new QueryClient();
 

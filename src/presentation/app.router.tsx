@@ -24,6 +24,10 @@ const CustomersPage = lazy(
 );
 const CustomerPage = lazy(() => import('./pages/admin/customer/CustomerPage'));
 const OrdersPage = lazy(() => import('./pages/admin/orders/OrdersPage'));
+const CreateOrderPage = lazy(
+  () => import('./pages/admin/order/CreateOrderPage'),
+);
+const EditOrderPage = lazy(() => import('./pages/admin/order/EditOrderPage'));
 
 const appRouter = createBrowserRouter([
   // AUTH
@@ -85,6 +89,14 @@ const appRouter = createBrowserRouter([
       {
         path: 'orders',
         element: <OrdersPage />,
+      },
+      {
+        path: 'orders/new',
+        element: <CreateOrderPage />,
+      },
+      {
+        path: 'orders/:id',
+        element: <EditOrderPage />,
       },
     ],
   },

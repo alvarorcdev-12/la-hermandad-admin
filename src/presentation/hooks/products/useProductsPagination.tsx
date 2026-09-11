@@ -1,8 +1,6 @@
 import { useCallback } from 'react';
 import { useSearchParams } from 'react-router';
-import { useQuery } from '@tanstack/react-query';
-
-import { getProductsPaginationAction } from '@/actions/products/get-products-pagination.action';
+import { useProducts } from './useProducts';
 
 export const useProductsPagination = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -12,29 +10,13 @@ export const useProductsPagination = () => {
   const queryDirection = searchParams.get('direction') ?? 'desc';
   const querySearch = searchParams.get('q') || undefined;
 
-  const query = useQuery({
-    queryKey: [
-      'products',
-      {
-        page: 1,
-        limit: 10,
-        status: queryStatus,
-        sort: querySort,
-        direction: queryDirection,
-        q: querySearch,
-      },
-    ],
-    queryFn: () =>
-      getProductsPaginationAction({
-        page: 1,
-        limit: 10,
-        status: queryStatus,
-        sort: querySort,
-        direction: queryDirection,
-        q: querySearch,
-      }),
-    retry: false,
-    staleTime: 1000 * 60 * 5, // 5 minutos
+  const query = useProducts({
+    page: 1,
+    limit: 10,
+    status: queryStatus,
+    sort: querySort,
+    direction: queryDirection,
+    q: querySearch,
   });
 
   const handleStatusChange = (status: string | undefined) => {
