@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 
 interface Props {
-  options: { label: string; value: string }[];
+  options: { label: string; value: string | undefined }[];
   currentStatus?: string;
   onStatusChange: (status: string | undefined) => void;
 }

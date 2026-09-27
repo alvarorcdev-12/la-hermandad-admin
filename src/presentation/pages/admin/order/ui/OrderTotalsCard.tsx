@@ -3,9 +3,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Formatter } from '@/utils/formatter';
 
 interface Props {
-  subtotalPrice: number;
-  totalPrice: number;
-  itemsCount: number;
+  subtotalPrice: number | string;
+  totalPrice: number | string;
+  itemsCount: number | string;
 }
 
 export const OrderTotalsCard = ({

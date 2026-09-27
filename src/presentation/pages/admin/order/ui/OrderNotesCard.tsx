@@ -15,13 +15,22 @@ import {
   InputGroupTextarea,
 } from '@/components/ui/input-group';
 import { FormDialog } from '@/presentation/components/shared/FormDialog';
+import { useState } from 'react';
 
 interface Props {
-  note: string;
+  note?: string;
   setNote: (notes: string) => void;
 }
 
-export const OrderNotesCard = ({ note, setNote }: Props) => {
+export const OrderNotesCard = ({ note = '', setNote }: Props) => {
+  const [localNote, setLocalNote] = useState(note);
+
+  const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (localNote.trim().length === 0) return;
+    setNote(localNote);
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -31,6 +40,7 @@ export const OrderNotesCard = ({ note, setNote }: Props) => {
         </CardDescription>
         <CardAction>
           <FormDialog
+            onSubmit={handleSubmit}
             title="Agregar notas"
             className="sm:max-w-xl"
             trigger={
@@ -47,11 +57,12 @@ export const OrderNotesCard = ({ note, setNote }: Props) => {
             <Field>
               <InputGroup>
                 <InputGroupTextarea
-                  value={note}
-                  onChange={(e) => setNote(e.target.value)}
+                  name="note"
+                  value={localNote}
+                  onChange={(e) => setLocalNote(e.target.value)}
                 />
                 <InputGroupAddon align="block-end">
-                  <InputGroupText>{note.length}/5000</InputGroupText>
+                  <InputGroupText>{localNote.length}/5000</InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
               <FieldDescription>

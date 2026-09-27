@@ -21,7 +21,7 @@ import type { Customer } from '@/domain/entities/customer.entity';
 interface Props {
   customers: Customer[];
 
-  onCustomerChange: (customer: Customer) => void;
+  onCustomerChange: (customer: Customer | null) => void;
 }
 
 export function CustomerCombobox({ customers, onCustomerChange }: Props) {

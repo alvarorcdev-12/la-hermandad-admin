@@ -1,3 +1,5 @@
+import type { Customer } from './customer.entity';
+
 export interface Order {
   id: string;
   number: number;
@@ -17,18 +19,6 @@ export interface Order {
   updateAt: Date;
   items: Item[];
   customer: Customer;
-}
-
-export interface Customer {
-  id: string;
-  storeId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  note: string | null;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 export interface Item {

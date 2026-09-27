@@ -1,6 +1,7 @@
 import { laHermandadApi } from '@/infrastructure/api/la-hermandad-api';
 
 import type { OrdersDBResponse } from '@/infrastructure/interfaces/orders-response.interface';
+import { OrderMapper } from '@/infrastructure/mappers/order.mapper';
 
 interface Options {
   page?: number;
@@ -25,7 +26,7 @@ export const getOrdersPaginationAction = async (options: Options) => {
       },
     });
 
-    return data;
+    return data.results.map(OrderMapper.orderDBToEntity);
   } catch (error) {
     console.log({ error });
     throw new Error('Error getting orders', { cause: error });

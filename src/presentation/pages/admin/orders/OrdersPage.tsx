@@ -104,7 +104,7 @@ const OrdersPage = () => {
                 <Spinner />
               </div>
             ) : (
-              <OrdersTable orders={data?.results || []} />
+              <OrdersTable orders={data || []} />
             )}
           </CardContent>
         </Card>

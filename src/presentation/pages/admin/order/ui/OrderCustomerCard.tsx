@@ -20,7 +20,7 @@ import { CustomerCombobox } from '@/presentation/components/order/CustomerCombob
 interface Props {
   customers: Customer[];
   selectedCustomer?: Customer;
-  setSelectedCustomer: (customer?: Customer) => void;
+  setSelectedCustomer: (customer?: Customer | null) => void;
 }
 
 export const OrderCustomerCard = ({

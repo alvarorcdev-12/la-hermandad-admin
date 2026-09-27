@@ -53,7 +53,7 @@ export const OrdersTable = ({ orders }: Props) => {
             <TableCell>
               <Link
                 className="font-medium leading-none hover:underline"
-                to={`/orders/${order.id}`}
+                to={`/admin/orders/${order.id}`}
               >
                 {order.name}
               </Link>

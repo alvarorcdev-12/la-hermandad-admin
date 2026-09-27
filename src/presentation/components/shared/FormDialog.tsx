@@ -16,6 +16,8 @@ interface Props {
   title?: string;
   description?: string;
   children: React.ReactNode;
+
+  onSubmit: (event: React.SubmitEvent<HTMLFormElement>) => void;
 }
 
 export const FormDialog = ({
@@ -24,6 +26,7 @@ export const FormDialog = ({
   title,
   description,
   children,
+  onSubmit,
 }: Props) => {
   return (
     <Dialog>
@@ -33,19 +36,25 @@ export const FormDialog = ({
           <DialogTitle>{title}</DialogTitle>
           {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
-        {children}
-        <DialogFooter>
-          <DialogClose
-            render={
-              <Button size="sm" variant="outline">
-                Cancelar
-              </Button>
-            }
-          />
-          <Button size="sm" type="button">
-            Listo
-          </Button>
-        </DialogFooter>
+        <form onSubmit={onSubmit}>
+          {children}
+          <DialogFooter>
+            <DialogClose
+              render={
+                <Button size="sm" variant="outline">
+                  Cancelar
+                </Button>
+              }
+            />
+            <DialogClose
+              render={
+                <Button size="sm" type="submit">
+                  Listo
+                </Button>
+              }
+            />
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
