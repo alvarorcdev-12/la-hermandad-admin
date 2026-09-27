@@ -1,5 +1,5 @@
 import { Link, Navigate, useParams } from 'react-router';
-import { useQuery } from '@tanstack/react-query';
+import { skipToken, useQuery } from '@tanstack/react-query';
 
 import { getOrderByIdAction } from '@/actions/orders/get-order-by-id.action';
 import { LoadingScreen } from '@/presentation/components/shared/LoadingScreen';
@@ -25,7 +25,7 @@ const EditOrderPage = () => {
     isError,
   } = useQuery({
     queryKey: ['order', { id }],
-    queryFn: () => getOrderByIdAction(id),
+    queryFn: id ? () => getOrderByIdAction(id) : skipToken,
     retry: false,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });

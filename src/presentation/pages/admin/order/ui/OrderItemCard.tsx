@@ -17,7 +17,7 @@ import { Formatter } from '@/utils/formatter';
 import type { CartItem } from '@/presentation/store/cart.store';
 
 interface Props {
-  onAddProducts?: (products: CartItem[]) => void;
+  onAddProducts: (products: CartItem[]) => void;
   cart: CartItem[];
   onUpdateQuantity: (item: CartItem, quantity: number) => void;
   onRemoveProduct: (item: CartItem) => void;

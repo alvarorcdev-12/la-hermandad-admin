@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const ProductStatusBadge = ({ status }: Props) => {
-  const statusConfig = {
+  const statusConfig: Partial<Record<string, { label: string; color: string }>> = {
     ACTIVE: {
       label: 'Activo',
       color:
@@ -22,9 +22,14 @@ export const ProductStatusBadge = ({ status }: Props) => {
     },
   };
 
+  const config = statusConfig[status] ?? {
+    label: status,
+    color: 'text-gray-800 bg-gray-200 dark:text-gray-200 dark:bg-muted/60',
+  };
+
   return (
-    <Badge className={cn('capitalize', statusConfig[status].color)}>
-      {statusConfig[status].label}
+    <Badge className={cn('capitalize', config.color)}>
+      {config.label}
     </Badge>
   );
 };

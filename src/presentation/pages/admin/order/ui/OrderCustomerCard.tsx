@@ -20,7 +20,7 @@ import { CustomerCombobox } from '@/presentation/components/order/CustomerCombob
 interface Props {
   customers: Customer[];
   selectedCustomer?: Customer;
-  setSelectedCustomer: (customer?: Customer | null) => void;
+  setSelectedCustomer: (customer?: Customer) => void;
 }
 
 export const OrderCustomerCard = ({
@@ -89,7 +89,7 @@ export const OrderCustomerCard = ({
         ) : (
           <CustomerCombobox
             customers={customers}
-            onCustomerChange={setSelectedCustomer}
+            onCustomerChange={(customer) => setSelectedCustomer(customer ?? undefined)}
           />
         )}
       </CardContent>
