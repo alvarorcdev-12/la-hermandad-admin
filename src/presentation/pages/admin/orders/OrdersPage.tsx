@@ -14,6 +14,13 @@ import {
 import { StatusFilterButtons } from '@/presentation/components/shared/StatusFilterButtons';
 
 import { useOrders } from '@/presentation/hooks/orders/useOrders';
+import { OrderStats } from '@/presentation/components/orders/OrderStats';
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import { mapDateRangeToApiParams } from '@/utils/date-filters';
+import { getOrdersStatsAction } from '@/actions/orders/get-orders-stats.action';
+
+import type { DateRange } from 'react-day-picker';
 
 const ordersSortOptions: SortOption[] = [
   {
@@ -62,6 +69,16 @@ const OrdersPage = () => {
     handleSortChange,
   } = useOrders();
 
+  const [date, setDate] = useState<DateRange | undefined>();
+
+  const dateParams = mapDateRangeToApiParams(date);
+
+  const { data: stats, isLoading: isLoadingStats } = useQuery({
+    queryKey: ['orders-stats', dateParams],
+    queryFn: () =>
+      getOrdersStatsAction(dateParams.startDate, dateParams.endDate),
+  });
+
   return (
     <>
       <div className="flex items-center justify-between">
@@ -70,6 +87,16 @@ const OrdersPage = () => {
           <Plus /> Crear pedido
         </Link>
       </div>
+
+      <div className="mt-4">
+        <OrderStats
+          stats={stats}
+          isLoading={isLoadingStats}
+          date={date}
+          onDateChange={setDate}
+        />
+      </div>
+
       <div className="mt-4">
         <Card className="p-0">
           <CardContent className="p-0">
@@ -99,6 +126,7 @@ const OrdersPage = () => {
                 />
               </div>
             </div>
+
             {isLoading ? (
               <div className="flex items-center justify-center h-96">
                 <Spinner />
