@@ -21,6 +21,7 @@ export const ProfileMenu = ({ user, onLogout }: Props) => {
             <AvatarFallback>{user?.initials ?? ''}</AvatarFallback>
             <AvatarBadge className="bg-green-600 dark:bg-green-800" />
           </Avatar>
+          
           <div>
             <p className="text-sm font-medium">{user?.name ?? ''}</p>
             <p className="text-xs text-muted-foreground">{user?.email ?? ''}</p>

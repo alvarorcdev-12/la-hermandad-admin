@@ -59,7 +59,7 @@ const ordersSortOptions: SortOption[] = [
 
 const OrdersPage = () => {
   const {
-    data,
+    data: orders,
     isLoading,
     queryStatus,
     querySort,
@@ -132,7 +132,7 @@ const OrdersPage = () => {
                 <Spinner />
               </div>
             ) : (
-              <OrdersTable orders={data || []} />
+              <OrdersTable orders={orders || []} />
             )}
           </CardContent>
         </Card>

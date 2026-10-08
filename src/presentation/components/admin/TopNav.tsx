@@ -37,9 +37,14 @@ export const TopNav = () => {
 
         <DropdownMenu>
           <DropdownMenuTrigger className="focus:outline-none">
-            <Avatar>
-              <AvatarFallback>{user?.initials ?? 'US'}</AvatarFallback>
-            </Avatar>
+            <div className="flex items-center gap-2">
+              <Avatar>
+                <AvatarFallback className="uppercase">{`${user?.storeName.charAt(0)}${user?.storeName.charAt(1)}`}</AvatarFallback>
+              </Avatar>
+              <span className="text-xs text-muted-foreground">
+                {user?.storeName}
+              </span>
+            </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"

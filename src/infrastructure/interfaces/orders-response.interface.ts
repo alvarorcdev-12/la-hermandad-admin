@@ -30,7 +30,7 @@ export interface OrderDB {
   createdAt: Date;
   updateAt: Date;
   items: Item[];
-  customer: Customer;
+  customer: Customer | null;
 }
 
 export interface Customer {
