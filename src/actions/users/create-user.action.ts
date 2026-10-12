@@ -17,7 +17,7 @@ const cleanData = (
     ...payload,
     email: email ? email : null,
     password: password ? password : null,
-    posPin: posPin ? posPin : null,
+    ...(posPin && { posPin }),
     phone: phoneTransform,
   };
 };

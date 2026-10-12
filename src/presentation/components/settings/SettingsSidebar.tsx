@@ -1,24 +1,6 @@
 import * as React from 'react';
 import { NavLink, useLocation } from 'react-router';
-import {
-  Building2,
-  CreditCard,
-  Receipt,
-  Users,
-  CreditCard as PaymentIcon,
-  Truck,
-  Percent,
-  Store,
-  Globe,
-  LayoutGrid,
-  Radio,
-  Bell,
-  Sliders,
-  Languages,
-  ShieldCheck,
-  FileText,
-  Search,
-} from 'lucide-react';
+import { Building2, Users, Store, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
@@ -37,29 +19,29 @@ interface SettingsSectionItem {
 
 const SETTINGS_SECTIONS: SettingsSectionItem[] = [
   { to: '/admin/settings/general', label: 'General', icon: Building2 },
-  { to: '/admin/settings/plan', label: 'Plan', icon: CreditCard },
-  { to: '/admin/settings/billing', label: 'Facturación', icon: Receipt },
+  // { to: '/admin/settings/plan', label: 'Plan', icon: CreditCard },
+  // { to: '/admin/settings/billing', label: 'Facturación', icon: Receipt },
   {
     to: '/admin/settings/organization',
     label: 'Usuarios',
     icon: Users,
-    subItems: [
-      { to: '/admin/settings/organization/roles', label: 'Roles' },
-      { to: '/admin/settings/organization/security', label: 'Seguridad' },
-    ],
+    // subItems: [
+    //   { to: '/admin/settings/organization/roles', label: 'Roles' },
+    //   { to: '/admin/settings/organization/security', label: 'Seguridad' },
+    // ],
   },
-  { to: '/admin/settings/payments', label: 'Pagos', icon: PaymentIcon },
-  { to: '/admin/settings/shipping', label: 'Envío y entrega', icon: Truck },
-  { to: '/admin/settings/taxes', label: 'Impuestos y aranceles', icon: Percent },
+  // { to: '/admin/settings/payments', label: 'Pagos', icon: PaymentIcon },
+  // { to: '/admin/settings/shipping', label: 'Envío y entrega', icon: Truck },
+  // { to: '/admin/settings/taxes', label: 'Impuestos y aranceles', icon: Percent },
   { to: '/admin/settings/locations', label: 'Sucursales', icon: Store },
-  { to: '/admin/settings/markets', label: 'Mercados', icon: Globe },
-  { to: '/admin/settings/apps', label: 'Apps y canales de ventas', icon: LayoutGrid },
-  { to: '/admin/settings/channels', label: 'Canales de ventas', icon: Radio },
-  { to: '/admin/settings/notifications', label: 'Notificaciones', icon: Bell },
-  { to: '/admin/settings/custom-data', label: 'Metacampos y metaobjetos', icon: Sliders },
-  { to: '/admin/settings/languages', label: 'Idiomas', icon: Languages },
-  { to: '/admin/settings/privacy', label: 'Privacidad del cliente', icon: ShieldCheck },
-  { to: '/admin/settings/policies', label: 'Políticas', icon: FileText },
+  // { to: '/admin/settings/markets', label: 'Mercados', icon: Globe },
+  // { to: '/admin/settings/apps', label: 'Apps y canales de ventas', icon: LayoutGrid },
+  // { to: '/admin/settings/channels', label: 'Canales de ventas', icon: Radio },
+  // { to: '/admin/settings/notifications', label: 'Notificaciones', icon: Bell },
+  // { to: '/admin/settings/custom-data', label: 'Metacampos y metaobjetos', icon: Sliders },
+  // { to: '/admin/settings/languages', label: 'Idiomas', icon: Languages },
+  // { to: '/admin/settings/privacy', label: 'Privacidad del cliente', icon: ShieldCheck },
+  // { to: '/admin/settings/policies', label: 'Políticas', icon: FileText },
 ];
 
 export const SettingsSidebar: React.FC = () => {
@@ -71,8 +53,8 @@ export const SettingsSidebar: React.FC = () => {
       (section) =>
         section.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
         section.subItems?.some((sub) =>
-          sub.label.toLowerCase().includes(searchQuery.toLowerCase())
-        )
+          sub.label.toLowerCase().includes(searchQuery.toLowerCase()),
+        ),
     );
   }, [searchQuery]);
 
@@ -126,7 +108,7 @@ export const SettingsSidebar: React.FC = () => {
                     'w-full flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-medium transition-colors text-left group',
                     isActive || (isParentActive && !item.subItems)
                       ? 'bg-sidebar-accent text-sidebar-accent-foreground font-semibold shadow-xs'
-                      : 'text-sidebar-foreground/80 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground'
+                      : 'text-sidebar-foreground/80 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground',
                   )
                 }
               >
@@ -137,7 +119,7 @@ export const SettingsSidebar: React.FC = () => {
                         'size-4 shrink-0 transition-colors',
                         isActive || isParentActive
                           ? 'text-sidebar-accent-foreground'
-                          : 'text-muted-foreground group-hover:text-sidebar-accent-foreground'
+                          : 'text-muted-foreground group-hover:text-sidebar-accent-foreground',
                       )}
                     />
                     <span className="truncate">{item.label}</span>
@@ -157,7 +139,7 @@ export const SettingsSidebar: React.FC = () => {
                           'px-2.5 py-1.5 rounded-md text-[11px] font-medium transition-colors',
                           isActive
                             ? 'bg-sidebar-accent text-sidebar-accent-foreground font-semibold'
-                            : 'text-muted-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent/40'
+                            : 'text-muted-foreground hover:text-sidebar-accent-foreground hover:bg-sidebar-accent/40',
                         )
                       }
                     >
@@ -180,9 +162,7 @@ export const SettingsSidebar: React.FC = () => {
       {/* Footer de Usuario */}
       <div className="p-3 border-t border-sidebar-border bg-sidebar-accent/20 flex items-center gap-2.5">
         <Avatar className="h-8 w-8 rounded-full border border-sidebar-border bg-secondary text-secondary-foreground">
-          <AvatarFallback className="text-xs font-medium">
-            AD
-          </AvatarFallback>
+          <AvatarFallback className="text-xs font-medium">AD</AvatarFallback>
         </Avatar>
         <div className="min-w-0 flex-1">
           <p className="text-xs font-medium truncate text-foreground">

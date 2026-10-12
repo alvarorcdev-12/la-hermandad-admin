@@ -18,6 +18,10 @@ import {
   FieldTitle,
 } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from '@/components/ui/native-select';
 import { toast } from '@/components/ui/toast';
 
 import { UserAdminForm } from '../user/UserAdminForm';
@@ -188,7 +192,23 @@ export const NewUserSettingContent = () => {
           </FieldSet>
         </CardContent>
       </Card>
-      {/* Card para contrast para los usuarios ADMIN? */}
+
+      <Card>
+        <CardContent>
+          <FieldSet>
+            <FieldLegend>Rol</FieldLegend>
+          </FieldSet>
+          <FieldGroup>
+            <Field>
+              <NativeSelect>
+                <NativeSelectOption>
+                  {typeUser == 'admin' ? 'Gerente' : 'Cajero'}
+                </NativeSelectOption>
+              </NativeSelect>
+            </Field>
+          </FieldGroup>
+        </CardContent>
+      </Card>
     </div>
   );
 };
