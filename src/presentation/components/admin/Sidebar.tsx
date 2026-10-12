@@ -4,7 +4,6 @@ import { Home, Inbox, Menu, Settings, Tag, User } from 'lucide-react';
 
 import { NavItem } from './NavItem';
 import { Button } from '@/components/ui/button';
-
 export const Sidebar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -101,9 +100,6 @@ export const Sidebar = () => {
               >
                 Ajustes
               </NavItem>
-              {/* <NavItem href="#" icon={HelpCircle}>
-                Help
-              </NavItem> */}
             </div>
           </div>
         </div>
