@@ -1,19 +1,6 @@
-import { Link, Outlet } from 'react-router';
+import { Outlet } from 'react-router';
 import { Shield, Zap, Users } from 'lucide-react';
-
-function Logo() {
-  return (
-    <Link
-      to="/"
-      className="flex items-center gap-2 text-foreground hover:opacity-80 transition-opacity"
-    >
-      <div className="w-8 h-8 rounded-lg bg-foreground flex items-center justify-center">
-        <span className="text-background font-bold text-sm">A</span>
-      </div>
-      <span className="font-semibold text-lg">Acme</span>
-    </Link>
-  );
-}
+import { Logo } from '../components/shared/Logo';
 
 const testimonial = {
   quote:

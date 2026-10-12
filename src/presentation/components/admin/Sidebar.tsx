@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
 import { Home, Inbox, Menu, Settings, Tag, User } from 'lucide-react';
 
 import { NavItem } from './NavItem';
 import { Button } from '@/components/ui/button';
+import { Logo } from '../shared/Logo';
+
 export const Sidebar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -28,19 +29,9 @@ export const Sidebar = () => {
             `}
       >
         <div className="h-full flex flex-col">
-          <Link
-            to="/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="h-16 px-6 flex items-center border-b"
-          >
-            {/* TODO: hacer logo */}
-            <div className="flex items-center gap-3">
-              <span className="text-lg font-semibold hover:cursor-pointer text-neutral-900 dark:text-white">
-                La Hermandad
-              </span>
-            </div>
-          </Link>
+          <div className="h-16 px-6 flex items-center border-b">
+            <Logo size="sm" to="/" />
+          </div>
 
           <div className="flex-1 overflow-y-auto py-4 px-4">
             <div className="space-y-6">

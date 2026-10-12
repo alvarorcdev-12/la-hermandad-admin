@@ -4,6 +4,7 @@ import {
   AuthenticatedRoute,
   NotAuthenticatedRoute,
 } from './components/protected/ProtectedRoutes';
+import { HomePage } from './pages/store-front/home/HomePage';
 
 // Layouts
 const AuthLayout = lazy(() => import('./layouts/AuthLayout'));
@@ -50,6 +51,11 @@ const NewUserSettingContent = lazy(() =>
 );
 
 const appRouter = createBrowserRouter([
+  // Store Front
+  {
+    path: '/',
+    element: <HomePage />,
+  },
   // AUTH
   {
     path: '/auth',
@@ -141,10 +147,6 @@ const appRouter = createBrowserRouter([
         ],
       },
     ],
-  },
-  {
-    index: true,
-    element: <Navigate to="/admin" />,
   },
 ]);
 
