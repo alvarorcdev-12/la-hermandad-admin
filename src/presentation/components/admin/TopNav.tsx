@@ -13,7 +13,6 @@ import { useAuthStore } from '@/presentation/store/auth.store';
 
 export const TopNav = () => {
   const user = useAuthStore((state) => state.user);
-  console.log('🚀 ~ TopNav ~ user:', user);
   const logout = useAuthStore((state) => state.logout);
 
   return (

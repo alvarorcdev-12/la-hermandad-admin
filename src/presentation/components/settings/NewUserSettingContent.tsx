@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { UserShield } from 'lucide-react';
+import { UserKey, UserShield, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { AdminTitle } from '../admin/AdminTitle';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,17 +13,74 @@ import {
   FieldGroup,
   FieldLabel,
   FieldLegend,
+  FieldSeparator,
   FieldSet,
   FieldTitle,
 } from '@/components/ui/field';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { toast } from '@/components/ui/toast';
 
 import { UserAdminForm } from '../user/UserAdminForm';
 import { UserPOSForm } from '../user/UserPOSForm';
 
+import { generatePosPinAction } from '@/actions/users/generate-pos-pin.action';
+import { createUserAction } from '@/actions/users/create-user.action';
+
+import type { CreateUserPayload } from '@/infrastructure/interfaces/payload/create-user-payload.interface';
+
 export const NewUserSettingContent = () => {
   const [typeUser, setTypeUser] = useState<'admin' | 'pos'>('admin');
   const navigate = useNavigate();
+
+  const [addUserList, setAddUserList] = useState<Partial<CreateUserPayload>[]>(
+    [],
+  );
+
+  const queryClient = useQueryClient();
+
+  const createStaffUser = useMutation({
+    mutationFn: createUserAction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+
+  const handleSubmit = async (
+    userForm: Partial<CreateUserPayload & { confirmPassword: string }>,
+  ) => {
+    const { confirmPassword: _, ...rest } = userForm;
+    if (userForm.role === 'CASHIER') {
+      const { pin } = await generatePosPinAction();
+
+      setAddUserList([...addUserList, { ...rest, posPin: pin }]);
+
+      toast.add({
+        type: 'success',
+        title: 'PIN generado.',
+      });
+
+      return;
+    }
+
+    setAddUserList([...addUserList, { ...rest }]);
+    // usuarios gerentes
+  };
+
+  const handleRemoveUserList = (index: number) => {
+    setAddUserList(addUserList.filter((u, i) => i !== index));
+  };
+
+  const handleCreateStaffUser = async () => {
+    await createStaffUser.mutateAsync(addUserList[0], {
+      onSuccess: () => {
+        toast.add({
+          type: 'success',
+          title: 'Usuario guardado.',
+        });
+        navigate('/admin/settings/organization', { replace: true });
+      },
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -43,7 +101,12 @@ export const NewUserSettingContent = () => {
           >
             Cancelar
           </Button>
-          <Button type="button" size="sm">
+          <Button
+            type="button"
+            size="sm"
+            onClick={handleCreateStaffUser}
+            disabled={addUserList.length === 0}
+          >
             Guardar
           </Button>
         </div>
@@ -80,17 +143,52 @@ export const NewUserSettingContent = () => {
                   </Field>
                 </FieldLabel>
               </RadioGroup>
-              {typeUser === 'admin' ? <UserAdminForm /> : <UserPOSForm />}
-              <Field orientation="horizontal" className="justify-end">
-                <Button size="sm" disabled>
-                  Guardar
-                </Button>
-              </Field>
+              <FieldSeparator />
+              {addUserList.length !== 0 ? (
+                <>
+                  <Field>
+                    {addUserList.map((user, index) => (
+                      <div
+                        className="flex items-center justify-between pt-2 pb-3"
+                        key={index}
+                      >
+                        <div>
+                          <span className="font-medium">
+                            {user.firstName} {user.lastName}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button size="sm" variant="secondary">
+                            <UserKey />
+                            {user.posPin}
+                          </Button>
+                          <Button
+                            size="icon-sm"
+                            variant="ghost"
+                            className="text-muted-foreground"
+                            onClick={() => handleRemoveUserList(index)}
+                          >
+                            <X />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </Field>
+                </>
+              ) : (
+                <>
+                  {typeUser === 'admin' ? (
+                    <UserAdminForm onSubmit={handleSubmit} />
+                  ) : (
+                    <UserPOSForm onSubmit={handleSubmit} />
+                  )}
+                </>
+              )}
             </FieldGroup>
           </FieldSet>
         </CardContent>
       </Card>
-      {/* Card para contrase para los usuarios ADMIN? */}
+      {/* Card para contrast para los usuarios ADMIN? */}
     </div>
   );
 };

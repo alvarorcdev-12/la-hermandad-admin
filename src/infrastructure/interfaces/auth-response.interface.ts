@@ -1,9 +1,9 @@
 export interface AuthResponse {
   token: string;
-  user: User;
+  user: UserDB;
 }
 
-export interface User {
+export interface UserDB {
   id: string;
 
   firstName: string;
