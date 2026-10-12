@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 
-import { ExternalLink, ShieldAlert, UserShield } from 'lucide-react';
+import { ExternalLink, UserShield } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -15,44 +15,33 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { AdminTitle } from '../admin/AdminTitle';
+import { cn } from 'cn';
 
-interface MockUser {
-  id: string;
-  name: string;
-  email?: string;
-  status: 'Activo' | 'Inactivo' | 'Invitado';
-  role: string;
-  hasWarning?: boolean;
-}
+import { useUsers } from '@/presentation/hooks/users/useUsers';
 
-const MOCK_USERS: MockUser[] = [
-  {
-    id: '1',
-    name: 'alejandro@google.com',
-    status: 'Activo',
-    role: 'Propietario de la organización, Pro...',
-    hasWarning: true,
-  },
-  {
-    id: '2',
-    name: 'Alejandro Ruiz',
-    status: 'Activo',
-    role: 'Cajero',
-  },
-  {
-    id: '3',
-    name: 'Juan Perez',
-    status: 'Activo',
-    role: 'Cajero',
-  },
-];
+const statusLabel = (role: string): string => {
+  switch (role) {
+    case 'OWNER':
+      return 'Propietario de la tienda.';
+    case 'MANAGER':
+      return 'Gerente';
+    case 'CASHIER':
+      return 'Cajero';
+    default:
+      return '';
+  }
+};
 
 export const UsersSettingsContent = () => {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 
+  const { data, isLoading } = useUsers({ page: 1, limit: 20 });
+
+  const users = data?.results || [];
+
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedUsers(MOCK_USERS.map((u) => u.id));
+      setSelectedUsers(users.map((u) => u.id));
     } else {
       setSelectedUsers([]);
     }
@@ -66,7 +55,7 @@ export const UsersSettingsContent = () => {
     }
   };
 
-  const isAllSelected = selectedUsers.length === MOCK_USERS.length;
+  const isAllSelected = selectedUsers.length === users.length;
 
   return (
     <div className="space-y-6">
@@ -107,7 +96,7 @@ export const UsersSettingsContent = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {MOCK_USERS.map((user) => {
+              {users.map((user) => {
                 const isSelected = selectedUsers.includes(user.id);
 
                 return (
@@ -124,25 +113,28 @@ export const UsersSettingsContent = () => {
                         aria-label={`Seleccionar ${user.name}`}
                       />
                     </TableCell>
-                    <TableCell className="font-medium text-foreground py-3.5">
+                    <TableCell className="font-medium text-foreground">
                       {user.name}
                     </TableCell>
-                    <TableCell className="py-3.5">
+                    <TableCell className="">
                       <div className="flex items-center gap-2">
                         <Badge
                           variant="outline"
-                          className="text-[11px] font-medium border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full px-2.5 py-0.5"
+                          className={cn(
+                            'text-[11px] font-medium rounded-full px-2.5 py-0.5',
+                            user.isActive
+                              ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                              : 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400',
+                          )}
                         >
-                          {user.status}
+                          {user.isActive ? 'Activo' : 'Suspendido'}
                         </Badge>
-                        {user.hasWarning && (
+                        {/* {user.hasWarning && (
                           <ShieldAlert className="size-3.5 text-rose-500" />
-                        )}
+                        )} */}
                       </div>
                     </TableCell>
-                    <TableCell className="text-muted-foreground py-3.5">
-                      {user.role}
-                    </TableCell>
+                    <TableCell className="">{statusLabel(user.role)}</TableCell>
                   </TableRow>
                 );
               })}
