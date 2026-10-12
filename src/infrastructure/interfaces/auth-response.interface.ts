@@ -5,7 +5,7 @@ export interface AuthResponse {
 
 export interface User {
   id: string;
-  storeName: string;
+
   firstName: string;
   lastName: string | null;
   name: string;

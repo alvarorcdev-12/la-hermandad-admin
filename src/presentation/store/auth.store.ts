@@ -33,6 +33,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   login: async (email: string, password: string) => {
     try {
       const data = await loginAction(email, password);
+      console.log('🚀 ~ data:', { data });
       localStorage.setItem('token', data.token);
 
       set({ user: data.user, token: data.token, authStatus: 'authenticated' });

@@ -10,12 +10,10 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { ProfileMenu } from './ProfileMenu';
 
 import { useAuthStore } from '@/presentation/store/auth.store';
-// import { ThemeToggle } from '@/presentation/components/ThemeToggle';
-
-// import { useAuthStore } from '@/auth/store/auth.store';
 
 export const TopNav = () => {
   const user = useAuthStore((state) => state.user);
+  console.log('🚀 ~ TopNav ~ user:', user);
   const logout = useAuthStore((state) => state.logout);
 
   return (
@@ -37,14 +35,11 @@ export const TopNav = () => {
 
         <DropdownMenu>
           <DropdownMenuTrigger className="focus:outline-none">
-            <div className="flex items-center gap-2">
-              <Avatar>
-                <AvatarFallback className="uppercase">{`${user?.storeName.charAt(0)}${user?.storeName.charAt(1)}`}</AvatarFallback>
-              </Avatar>
-              <span className="text-xs text-muted-foreground">
-                {user?.storeName}
-              </span>
-            </div>
+            <Avatar>
+              <AvatarFallback className="uppercase">
+                {user.initials}
+              </AvatarFallback>
+            </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
