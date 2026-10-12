@@ -18,6 +18,7 @@ import { AdminTitle } from '../admin/AdminTitle';
 import { cn } from 'cn';
 
 import { useUsers } from '@/presentation/hooks/users/useUsers';
+import { Spinner } from '@/components/ui/spinner';
 
 const statusLabel = (role: string): string => {
   switch (role) {
@@ -70,76 +71,82 @@ export const UsersSettingsContent = () => {
           Agregar usuarios
         </Link>
       </div>
-
-      {/* Tabla de Usuarios estilo Card */}
       <Card className="p-0">
         <CardContent className="p-0">
-          <Table>
-            <TableHeader className="bg-muted/50">
-              <TableRow className="border-border hover:bg-transparent">
-                <TableHead className="w-12 text-center">
-                  <Checkbox
-                    checked={isAllSelected}
-                    onCheckedChange={handleSelectAll}
-                    aria-label="Seleccionar todos"
-                  />
-                </TableHead>
-                <TableHead className="font-semibold text-muted-foreground">
-                  Usuario
-                </TableHead>
-                <TableHead className="font-semibold text-muted-foreground">
-                  Estado
-                </TableHead>
-                <TableHead className="font-semibold text-muted-foreground">
-                  Rol
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {users.map((user) => {
-                const isSelected = selectedUsers.includes(user.id);
+          {isLoading ? (
+            <div className="flex items-center justify-center h-96">
+              <Spinner />
+            </div>
+          ) : (
+            <Table>
+              <TableHeader className="bg-muted/50">
+                <TableRow className="border-border hover:bg-transparent">
+                  <TableHead className="w-12 text-center">
+                    <Checkbox
+                      checked={isAllSelected}
+                      onCheckedChange={handleSelectAll}
+                      aria-label="Seleccionar todos"
+                    />
+                  </TableHead>
+                  <TableHead className="font-semibold text-muted-foreground">
+                    Usuario
+                  </TableHead>
+                  <TableHead className="font-semibold text-muted-foreground">
+                    Estado
+                  </TableHead>
+                  <TableHead className="font-semibold text-muted-foreground">
+                    Rol
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {users.map((user) => {
+                  const isSelected = selectedUsers.includes(user.id);
 
-                return (
-                  <TableRow
-                    key={user.id}
-                    className="border-border hover:bg-muted/30 transition-colors"
-                  >
-                    <TableCell className="text-center">
-                      <Checkbox
-                        checked={isSelected}
-                        onCheckedChange={(checked) =>
-                          handleSelectOne(user.id, !!checked)
-                        }
-                        aria-label={`Seleccionar ${user.name}`}
-                      />
-                    </TableCell>
-                    <TableCell className="font-medium text-foreground">
-                      {user.name}
-                    </TableCell>
-                    <TableCell className="">
-                      <div className="flex items-center gap-2">
-                        <Badge
-                          variant="outline"
-                          className={cn(
-                            'text-[11px] font-medium rounded-full px-2.5 py-0.5',
-                            user.isActive
-                              ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                              : 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400',
-                          )}
-                        >
-                          {user.isActive ? 'Activo' : 'Suspendido'}
-                        </Badge>
-                        {/* {user.hasWarning && (
+                  return (
+                    <TableRow
+                      key={user.id}
+                      className="border-border hover:bg-muted/30 transition-colors"
+                    >
+                      <TableCell className="text-center">
+                        <Checkbox
+                          checked={isSelected}
+                          onCheckedChange={(checked) =>
+                            handleSelectOne(user.id, !!checked)
+                          }
+                          aria-label={`Seleccionar ${user.name}`}
+                        />
+                      </TableCell>
+                      <TableCell className="font-medium text-foreground">
+                        {user.name}
+                      </TableCell>
+                      <TableCell className="">
+                        <div className="flex items-center gap-2">
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              'text-[11px] font-medium rounded-full px-2.5 py-0.5',
+                              user.isActive
+                                ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                                : 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400',
+                            )}
+                          >
+                            {user.isActive ? 'Activo' : 'Suspendido'}
+                          </Badge>
+                          {/* {user.hasWarning && (
                           <ShieldAlert className="size-3.5 text-rose-500" />
                         )} */}
-                      </div>
-                    </TableCell>
-                    <TableCell className="">{statusLabel(user.role)}</TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+                        </div>
+                      </TableCell>
+                      <TableCell className="">
+                        {statusLabel(user.role)}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
 

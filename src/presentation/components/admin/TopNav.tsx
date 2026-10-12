@@ -36,7 +36,7 @@ export const TopNav = () => {
           <DropdownMenuTrigger className="focus:outline-none">
             <Avatar>
               <AvatarFallback className="uppercase">
-                {user.initials}
+                {user?.initials}
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>

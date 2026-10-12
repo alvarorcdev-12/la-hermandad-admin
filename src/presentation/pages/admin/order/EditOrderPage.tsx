@@ -32,7 +32,7 @@ const EditOrderPage = () => {
 
   const { data } = useCustomers({ page: 1, limit: 100 });
 
-  const [localCustomer, setLocalCustomer] = useState<Customer | undefined>();
+  const [localCustomer, setLocalCustomer] = useState<Customer | null>();
 
   if (isError) {
     return <Navigate to="/admin/orders" replace />;

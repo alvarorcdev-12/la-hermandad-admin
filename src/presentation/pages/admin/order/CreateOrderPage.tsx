@@ -32,8 +32,8 @@ const CreateOrderPage = () => {
   const clearCart = useCartStore((state) => state.clearCart);
 
   const [selectedCustomer, setSelectedCustomer] = useState<
-    Customer | undefined
-  >(undefined);
+    Customer | null
+  >(null);
 
   const [note, setNote] = useState('');
 
@@ -88,7 +88,7 @@ const CreateOrderPage = () => {
         });
         navigate(`/admin/orders/${data.id}`);
         clearCart();
-        setSelectedCustomer(undefined);
+        setSelectedCustomer(null);
         setNote('');
       },
       onError: () => {

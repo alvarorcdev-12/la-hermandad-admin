@@ -14,13 +14,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import type { Customer } from '@/domain/entities/customer.entity';
 import { CustomerCombobox } from '@/presentation/components/order/CustomerCombobox';
+
+import type { Customer } from '@/domain/entities/customer.entity';
 
 interface Props {
   customers: Customer[];
-  selectedCustomer?: Customer;
-  setSelectedCustomer: (customer?: Customer) => void;
+  selectedCustomer: Customer | null;
+  setSelectedCustomer: (customer: Customer | null) => void;
 }
 
 export const OrderCustomerCard = ({
@@ -56,7 +57,7 @@ export const OrderCustomerCard = ({
                 <DropdownMenuItem
                   variant="destructive"
                   onClick={() => {
-                    setSelectedCustomer(undefined);
+                    setSelectedCustomer(null);
                   }}
                 >
                   Eliminar cliente
@@ -89,7 +90,9 @@ export const OrderCustomerCard = ({
         ) : (
           <CustomerCombobox
             customers={customers}
-            onCustomerChange={(customer) => setSelectedCustomer(customer ?? undefined)}
+            onCustomerChange={(customer) =>
+              setSelectedCustomer(customer ?? null)
+            }
           />
         )}
       </CardContent>

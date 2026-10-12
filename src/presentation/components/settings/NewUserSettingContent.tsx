@@ -71,7 +71,7 @@ export const NewUserSettingContent = () => {
   };
 
   const handleRemoveUserList = (index: number) => {
-    setAddUserList(addUserList.filter((u, i) => i !== index));
+    setAddUserList(addUserList.filter((_u, i) => i !== index));
   };
 
   const handleCreateStaffUser = async () => {
