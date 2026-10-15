@@ -50,6 +50,10 @@ const NewUserSettingContent = lazy(() =>
   })),
 );
 
+const ProfileUserSettingContent = lazy(
+  () => import('./components/settings/ProfileUserSettingContent'),
+);
+
 const appRouter = createBrowserRouter([
   // Store Front
   {
@@ -143,6 +147,10 @@ const appRouter = createBrowserRouter([
           {
             path: 'organization/new',
             element: <NewUserSettingContent />,
+          },
+          {
+            path: 'organization/:id',
+            element: <ProfileUserSettingContent />,
           },
         ],
       },

@@ -106,7 +106,7 @@ export const UsersSettingsContent = () => {
                   return (
                     <TableRow
                       key={user.id}
-                      className="border-border hover:bg-muted/30 transition-colors"
+                      className="border-border transition-colors"
                     >
                       <TableCell className="text-center">
                         <Checkbox
@@ -118,7 +118,12 @@ export const UsersSettingsContent = () => {
                         />
                       </TableCell>
                       <TableCell className="font-medium text-foreground">
-                        {user.name}
+                        <Link
+                          to={`/admin/settings/organization/${user.id}`}
+                          className="hover:underline"
+                        >
+                          {user.name}
+                        </Link>
                       </TableCell>
                       <TableCell className="">
                         <div className="flex items-center gap-2">
@@ -127,8 +132,8 @@ export const UsersSettingsContent = () => {
                             className={cn(
                               'text-[11px] font-medium rounded-full px-2.5 py-0.5',
                               user.isActive
-                                ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                                : 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400',
+                                ? 'text-emerald-800 bg-emerald-200 dark:text-emerald-200 dark:bg-emerald-800/40'
+                                : 'text-red-800 bg-red-200 dark:text-red-200 dark:bg-red-800/40',
                             )}
                           >
                             {user.isActive ? 'Activo' : 'Suspendido'}
