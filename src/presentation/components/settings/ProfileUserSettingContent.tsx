@@ -29,18 +29,47 @@ import {
   NativeSelect,
   NativeSelectOption,
 } from '@/components/ui/native-select';
-
-
+import { useQuery } from '@tanstack/react-query';
+import { Navigate, useParams } from 'react-router';
+import { getUserByIdAction } from '@/actions/users/get-user-by-id.action';
+import { UserFormDialog } from '../user/UserFormDialog';
 
 const ProfileUserSettingContent = () => {
+  const { id } = useParams();
+
   const [showPin, setShowPin] = useState(false);
+
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
+
+  const {
+    data: user,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['user', { id }],
+    queryFn: () => getUserByIdAction(id || ''),
+    staleTime: 1000 * 60 * 5,
+    retry: false,
+  });
+
+  if (isError) {
+    return <Navigate to="/admin/settings/organization" replace />;
+  }
+
+  if (isLoading) {
+    return <h1>Cargando...</h1>;
+  }
+
+  if (!user) {
+    return <Navigate to="/admin/settings/organization" replace />;
+  }
 
   return (
     <>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <AdminTitle
-            title={name}
+            title={user.name}
             Icon={UserShield}
             prevHref="/admin/settings/organization"
           />
@@ -79,11 +108,11 @@ const ProfileUserSettingContent = () => {
                     <User className="size-5" />
                   </div>
                   <div>
-                    <p className="font-semibold text-base">{name}</p>
+                    <p className="font-semibold text-base">{user.name}</p>
                     <div className="text-muted-foreground inline-flex items-center gap-1.5 text-sm">
                       <span className="text-xs font-medium">PIN:</span>
                       <span className="text-xs font-medium select-none">
-                        {showPin ? pin : '••••••'}
+                        {showPin ? '12345' : '••••••'}
                       </span>
                       <Button
                         type="button"
@@ -109,6 +138,7 @@ const ProfileUserSettingContent = () => {
                   size="icon-sm"
                   className="text-muted-foreground"
                   variant="ghost"
+                  onClick={() => setIsOpenDialog(true)}
                 >
                   <Pencil />
                 </Button>
@@ -131,6 +161,7 @@ const ProfileUserSettingContent = () => {
           </Card>
         </div>
       </div>
+      <UserFormDialog className="sm:max-w-2xl" open={isOpenDialog} onOpenChange={setIsOpenDialog} />
     </>
   );
 };
