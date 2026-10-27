@@ -1,16 +1,8 @@
-import {
-  Save,
-  CreditCard,
-  Lock,
-  Download,
-  Upload,
-  Settings,
-  Store,
-  Phone,
-} from 'lucide-react';
+import { Save, Lock, Upload, Settings, Store, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -29,6 +21,14 @@ import {
   FieldLegend,
   FieldSet,
 } from '@/components/ui/field';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { AdminTitle } from '@/presentation/components/admin/AdminTitle';
 
 export const SettingsPage = () => {
@@ -115,97 +115,51 @@ export const SettingsPage = () => {
           <TabsContent value="locations" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Billing & Subscription</CardTitle>
-                <CardDescription>
-                  Manage your subscription and billing information
-                </CardDescription>
+                <CardTitle>Todas las sucursales</CardTitle>
+                <CardAction>
+                  <Button size="sm" variant="outline">
+                    Agregar sucursal
+                  </Button>
+                </CardAction>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <h3 className="font-medium text-neutral-900">Current Plan</h3>
-                  <div className="p-4 border border-neutral-200 rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="font-medium text-lg">Pro Plan</div>
-                      <Badge
-                        variant="secondary"
-                        className="bg-purple-100 text-purple-700"
-                      >
-                        Active
-                      </Badge>
-                    </div>
-                    <div className="text-sm text-neutral-600 mb-4">
-                      $29/month • Billed monthly • Next billing: Jan 15, 2025
-                    </div>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        Change Plan
+
+              <CardContent className="pt-0">
+                <div className="border rounded-lg">
+                  <div className="p-2 flex items-center justify-between border-b">
+                    <div className="flex items-center gap-2">
+                      <Button size="sm" variant="secondary">
+                        Todo
                       </Button>
-                      <Button variant="outline" size="sm">
-                        Cancel Subscription
+                      <Button size="sm" variant="ghost">
+                        Activo
+                      </Button>
+                      <Button size="sm" variant="ghost">
+                        Inactivo
                       </Button>
                     </div>
                   </div>
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="font-medium text-neutral-900">
-                    Payment Method
-                  </h3>
-                  <div className="p-4 border border-neutral-200 rounded-lg">
-                    <div className="flex items-center gap-3 mb-2">
-                      <CreditCard className="w-5 h-5 text-neutral-400" />
-                      <div className="font-medium">•••• •••• •••• 4242</div>
-                      <Badge variant="secondary">Default</Badge>
-                    </div>
-                    <div className="text-sm text-neutral-600 mb-4">
-                      Expires 12/2027
-                    </div>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm">
-                        Update Card
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        Add Payment Method
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="font-medium text-neutral-900">
-                    Billing History
-                  </h3>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between p-3 border border-neutral-200 rounded-lg">
-                      <div>
-                        <div className="font-medium">Dec 15, 2024</div>
-                        <div className="text-sm text-neutral-600">
-                          Pro Plan - Monthly
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">$29.00</span>
-                        <Button variant="ghost" size="sm">
-                          <Download className="size-4" />
-                        </Button>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between p-3 border border-neutral-200 rounded-lg">
-                      <div>
-                        <div className="font-medium">Nov 15, 2024</div>
-                        <div className="text-sm text-neutral-600">
-                          Pro Plan - Monthly
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="font-medium">$29.00</span>
-                        <Button variant="ghost" size="sm">
-                          <Download className="size-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
+                  <Table>
+                    <TableHeader className="bg-muted/50">
+                      <TableRow>
+                        <TableHead className="text-muted-foreground">
+                          Sucursal
+                        </TableHead>
+                        <TableHead className="text-muted-foreground">
+                          Estado
+                        </TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>Sucursal por defecto</TableCell>
+                        <TableCell>
+                          <Badge className="text-emerald-800 bg-emerald-200 dark:text-emerald-200 dark:bg-emerald-800/40">
+                            Activo
+                          </Badge>
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
                 </div>
               </CardContent>
             </Card>
