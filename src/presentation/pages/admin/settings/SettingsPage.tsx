@@ -1,13 +1,12 @@
 import {
   Save,
-  Bell,
   CreditCard,
-  Smartphone,
-  Mail,
   Lock,
   Download,
   Upload,
   Settings,
+  Store,
+  Phone,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,16 +18,14 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
 import { Badge } from '@/components/ui/badge';
 import { PasswordInput } from '@/components/auth/password-input';
 import {
   Field,
   FieldGroup,
+  FieldLabel,
   FieldLegend,
   FieldSet,
 } from '@/components/ui/field';
@@ -36,7 +33,7 @@ import { AdminTitle } from '@/presentation/components/admin/AdminTitle';
 
 export const SettingsPage = () => {
   return (
-    <>
+    <div className="max-w-6xl w-full mx-auto">
       <div className="space-y-8">
         {/* Header */}
         <AdminTitle title="Ajustes" Icon={Settings} />
@@ -53,104 +50,63 @@ export const SettingsPage = () => {
           <TabsContent value="general" className="space-y-6">
             <Card>
               <CardHeader>
-                <CardTitle>Notification Preferences</CardTitle>
+                <CardTitle>Detalles de la tienda</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="border rounded-lg px-4">
+                  <div className="flex items-center gap-5 border-b py-2.5">
+                    <Store className="text-muted-foreground size-5" />
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-base font-medium">
+                        La Hermandad
+                      </span>
+                      <span className="font-medium text-sm text-muted-foreground">
+                        Sin correo electrónico
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-5 py-2.5">
+                    <Phone className="text-muted-foreground size-5" />
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-base font-medium">Teléfono</span>
+                      <span className="font-medium text-sm text-muted-foreground">
+                        Sin numero de teléfono
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>ID de pedido</CardTitle>
                 <CardDescription>
-                  Choose how you want to be notified about important events
+                  Se muestra en la pagina de pedidos, las paginas de cliente
+                  para identificar el pedido
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="space-y-4">
-                  <h3 className="font-medium text-neutral-900">
-                    Notification Channels
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Mail className="w-5 h-5 text-neutral-400" />
-                        <div>
-                          <div className="font-medium">Email Notifications</div>
-                          <div className="text-sm text-neutral-600">
-                            Receive notifications via email
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Bell className="w-5 h-5 text-neutral-400" />
-                        <div>
-                          <div className="font-medium">Push Notifications</div>
-                          <div className="text-sm text-neutral-600">
-                            Receive browser push notifications
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <Smartphone className="w-5 h-5 text-neutral-400" />
-                        <div>
-                          <div className="font-medium">SMS Notifications</div>
-                          <div className="text-sm text-neutral-600">
-                            Receive text message alerts
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                <FieldGroup>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Field>
+                      <FieldLabel>Prefijo</FieldLabel>
+                      <Input type="text" defaultValue="#" />
+                    </Field>
+                    <Field>
+                      <FieldLabel>Sufijo</FieldLabel>
+                      <Input type="text" />
+                    </Field>
                   </div>
-                </div>
-
-                <div className="space-y-4">
-                  <h3 className="font-medium text-neutral-900">
-                    Event Notifications
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-medium">Workflow Success</div>
-                        <div className="text-sm text-neutral-600">
-                          When workflows complete successfully
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-medium">Workflow Failure</div>
-                        <div className="text-sm text-neutral-600">
-                          When workflows fail or encounter errors
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-medium">Weekly Reports</div>
-                        <div className="text-sm text-neutral-600">
-                          Weekly summary of workflow performance
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-medium">Security Alerts</div>
-                        <div className="text-sm text-neutral-600">
-                          Important security and account notifications
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-end">
-                  <Button className="bg-purple-600 hover:bg-purple-700 gap-2">
-                    <Save className="size-4" />
-                    Save Preferences
-                  </Button>
-                </div>
+                  <Field>
+                    <p>Su ID de pedido aparecerá como #1001, #1002, #1003...</p>
+                  </Field>
+                  <Field orientation="horizontal" className="justify-end">
+                    <Button>
+                      <Save className="size-4" />
+                      Guardar cambios
+                    </Button>
+                  </Field>
+                </FieldGroup>
               </CardContent>
             </Card>
           </TabsContent>
@@ -372,7 +328,7 @@ export const SettingsPage = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </>
+    </div>
   );
 };
 
