@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Home, Inbox, Menu, Settings, Tag, User } from 'lucide-react';
+import {
+  Home,
+  Inbox,
+  Menu,
+  Settings,
+  Tag,
+  User,
+  UserShield,
+} from 'lucide-react';
 
 import { NavItem } from './NavItem';
 import { Button } from '@/components/ui/button';
@@ -36,9 +44,9 @@ export const Sidebar = () => {
           <div className="flex-1 overflow-y-auto py-4 px-4">
             <div className="space-y-6">
               <div>
-                {/* <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  App
-                </div> */}
+                <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  General
+                </div>
                 <div className="space-y-1">
                   <NavItem
                     to="/admin"
@@ -74,9 +82,12 @@ export const Sidebar = () => {
                   >
                     Clientes
                   </NavItem>
-                  {/* <NavItem href="#" icon={Folder}>
-                    Projects
-                  </NavItem> */}
+                  <div className="px-3 mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                    Grupo
+                  </div>
+                  <NavItem to="/admin/users" Icon={UserShield}>
+                    Usuarios
+                  </NavItem>
                 </div>
               </div>
             </div>

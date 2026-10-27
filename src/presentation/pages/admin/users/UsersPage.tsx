@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 
-import { ExternalLink, UserShield } from 'lucide-react';
+import { UserShield } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -14,11 +14,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { AdminTitle } from '../admin/AdminTitle';
+
 import { cn } from 'cn';
 
 import { useUsers } from '@/presentation/hooks/users/useUsers';
 import { Spinner } from '@/components/ui/spinner';
+import { AdminTitle } from '@/presentation/components/admin/AdminTitle';
 
 const statusLabel = (role: string): string => {
   switch (role) {
@@ -33,7 +34,7 @@ const statusLabel = (role: string): string => {
   }
 };
 
-export const UsersSettingsContent = () => {
+const UsersPage = () => {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 
   const { data, isLoading } = useUsers({ page: 1, limit: 20 });
@@ -138,9 +139,6 @@ export const UsersSettingsContent = () => {
                           >
                             {user.isActive ? 'Activo' : 'Suspendido'}
                           </Badge>
-                          {/* {user.hasWarning && (
-                          <ShieldAlert className="size-3.5 text-rose-500" />
-                        )} */}
                         </div>
                       </TableCell>
                       <TableCell className="">
@@ -154,17 +152,8 @@ export const UsersSettingsContent = () => {
           )}
         </CardContent>
       </Card>
-
-      {/* Enlace de información adicional */}
-      <div className="pt-2 text-center">
-        <a
-          href="#"
-          className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-colors hover:underline"
-        >
-          <span>Más información sobre usuarios</span>
-          <ExternalLink className="size-3 text-muted-foreground" />
-        </a>
-      </div>
     </div>
   );
 };
+
+export default UsersPage;
