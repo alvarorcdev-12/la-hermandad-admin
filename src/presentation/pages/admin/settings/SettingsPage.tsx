@@ -39,7 +39,7 @@ export const SettingsPage = () => {
         <AdminTitle title="Ajustes" Icon={Settings} />
 
         <Tabs defaultValue="profile" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-4 bg-neutral-50">
             <TabsTrigger value="general">General</TabsTrigger>
             <TabsTrigger value="locations">Sucursales</TabsTrigger>
             <TabsTrigger value="profile">Perfil</TabsTrigger>
