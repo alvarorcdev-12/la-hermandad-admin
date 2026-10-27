@@ -31,28 +31,7 @@ const CreateOrderPage = lazy(
 const EditOrderPage = lazy(() => import('./pages/admin/order/EditOrderPage'));
 
 // Settings
-const SettingsLayout = lazy(
-  () => import('./components/settings/SettingsLayout'),
-);
-const GeneralSettingsContent = lazy(() =>
-  import('./components/settings/GeneralSettingsContent').then((m) => ({
-    default: m.GeneralSettingsContent,
-  })),
-);
-const UsersSettingsContent = lazy(() =>
-  import('./components/settings/UsersSettingsContent').then((m) => ({
-    default: m.UsersSettingsContent,
-  })),
-);
-const NewUserSettingContent = lazy(() =>
-  import('./components/settings/NewUserSettingContent').then((m) => ({
-    default: m.NewUserSettingContent,
-  })),
-);
-
-const ProfileUserSettingContent = lazy(
-  () => import('./components/settings/ProfileUserSettingContent'),
-);
+const SettingsPage = lazy(() => import('./pages/admin/settings/SettingsPage'));
 
 const appRouter = createBrowserRouter([
   // Store Front
@@ -130,29 +109,7 @@ const appRouter = createBrowserRouter([
       },
       {
         path: 'settings',
-        element: <SettingsLayout />,
-        children: [
-          {
-            index: true,
-            element: <Navigate to="/admin/settings/general" replace />,
-          },
-          {
-            path: 'general',
-            element: <GeneralSettingsContent />,
-          },
-          {
-            path: 'organization',
-            element: <UsersSettingsContent />,
-          },
-          {
-            path: 'organization/new',
-            element: <NewUserSettingContent />,
-          },
-          {
-            path: 'organization/:id',
-            element: <ProfileUserSettingContent />,
-          },
-        ],
+        element: <SettingsPage />,
       },
     ],
   },
