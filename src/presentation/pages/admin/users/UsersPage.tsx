@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 
-import { UserShield } from 'lucide-react';
+import { Plus, UserShield } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { buttonVariants } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -65,10 +65,8 @@ const UsersPage = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <AdminTitle title="Usuarios" Icon={UserShield} />
 
-        <Link
-          to="/admin/settings/organization/new"
-          className={buttonVariants({ size: 'sm' })}
-        >
+        <Link to="/admin/users/new" className={buttonVariants({ size: 'sm' })}>
+          <Plus />
           Agregar usuarios
         </Link>
       </div>

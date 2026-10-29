@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { UserKey, UserShield, X } from 'lucide-react';
+import { Save, UserKey, UserShield, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { AdminTitle } from '../admin/AdminTitle';
+
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Field,
@@ -24,16 +24,16 @@ import {
 } from '@/components/ui/native-select';
 import { toast } from '@/components/ui/toast';
 
-import { UserAdminForm } from '../user/UserAdminForm';
-import { UserPOSForm } from '../user/UserPOSForm';
-
 import { generatePosPinAction } from '@/actions/users/generate-pos-pin.action';
 import { createUserAction } from '@/actions/users/create-user.action';
 
 import type { CreateUserPayload } from '@/infrastructure/interfaces/payload/create-user-payload.interface';
+import { AdminTitle } from '@/presentation/components/admin/AdminTitle';
+import { UserAdminForm } from '@/presentation/components/user/UserAdminForm';
+import { UserPOSForm } from '@/presentation/components/user/UserPOSForm';
 
-export const NewUserSettingContent = () => {
-  const [typeUser, setTypeUser] = useState<'admin' | 'pos'>('admin');
+const NewUserStaffPage = () => {
+  const [typeUser, setTypeUser] = useState<'admin' | 'pos'>('pos');
   const navigate = useNavigate();
 
   const [addUserList, setAddUserList] = useState<Partial<CreateUserPayload>[]>(
@@ -81,19 +81,19 @@ export const NewUserSettingContent = () => {
           type: 'success',
           title: 'Usuario guardado.',
         });
-        navigate('/admin/settings/organization', { replace: true });
+        navigate('/admin/users', { replace: true });
       },
     });
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl w-full mx-auto space-y-6">
       {/* Header con Botón de Regreso y Título */}
       <div className="flex items-center justify-between">
         <AdminTitle
           title="Agregar usuario"
           Icon={UserShield}
-          prevHref="/admin/settings/organization"
+          prevHref="/admin/users"
         />
 
         <div className="flex items-center gap-2">
@@ -101,8 +101,9 @@ export const NewUserSettingContent = () => {
             type="button"
             variant="outline"
             size="sm"
-            onClick={() => navigate('/admin/settings/organization')}
+            onClick={() => navigate('/admin/users')}
           >
+            <X />
             Cancelar
           </Button>
           <Button
@@ -111,6 +112,7 @@ export const NewUserSettingContent = () => {
             onClick={handleCreateStaffUser}
             disabled={addUserList.length === 0}
           >
+            <Save />
             Guardar
           </Button>
         </div>
@@ -122,7 +124,7 @@ export const NewUserSettingContent = () => {
             <FieldLegend>Información del usuario</FieldLegend>
             <FieldGroup>
               <RadioGroup
-                defaultValue="admin"
+                defaultValue="pos"
                 className="flex mt-4"
                 onValueChange={(value) => setTypeUser(value)}
               >
@@ -130,9 +132,11 @@ export const NewUserSettingContent = () => {
                   <Field orientation="horizontal">
                     <FieldContent>
                       <FieldTitle>Usuario Admin</FieldTitle>
-                      <FieldDescription>Admite todo los roles</FieldDescription>
+                      <FieldDescription>
+                        Admite sol el rol de gerente
+                      </FieldDescription>
                     </FieldContent>
-                    <RadioGroupItem value="admin" id="user-admin" />
+                    <RadioGroupItem value="admin" id="user-admin" disabled />
                   </Field>
                 </FieldLabel>
                 <FieldLabel htmlFor="user-pos">
@@ -212,3 +216,5 @@ export const NewUserSettingContent = () => {
     </div>
   );
 };
+
+export default NewUserStaffPage;

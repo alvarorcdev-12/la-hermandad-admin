@@ -35,6 +35,9 @@ const SettingsPage = lazy(() => import('./pages/admin/settings/SettingsPage'));
 
 // Users
 const UsersPage = lazy(() => import('./pages/admin/users/UsersPage'));
+const NewUserStaffPage = lazy(
+  () => import('./pages/admin/user/NewUserStaffPage'),
+);
 
 const appRouter = createBrowserRouter([
   // Store Front
@@ -114,6 +117,11 @@ const appRouter = createBrowserRouter([
         path: 'users',
         element: <UsersPage />,
       },
+      {
+        path: 'users/new',
+        element: <NewUserStaffPage />,
+      },
+
       {
         path: 'settings',
         element: <SettingsPage />,
