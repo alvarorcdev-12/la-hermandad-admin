@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router';
 import { useQuery } from '@tanstack/react-query';
 
@@ -37,11 +37,13 @@ import { getUserByIdAction } from '@/actions/users/get-user-by-id.action';
 
 import { cn } from 'cn';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { getUserPosPinAction } from '@/actions/users/get-user-pos-pin.action';
 
 const ProfileUserStaffPage = () => {
   const { id } = useParams();
 
   const [showPin, setShowPin] = useState(false);
+  const [posPin, setPosPin] = useState('');
 
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
@@ -56,6 +58,11 @@ const ProfileUserStaffPage = () => {
     retry: false,
   });
 
+  useEffect(() => {
+    getUserPosPinAction(id || '')
+      .then((resp) => setPosPin(resp.pin))
+      .catch(() => setPosPin(''));
+  }, [id]);
   if (isError) {
     return <Navigate to="/admin/users" replace />;
   }
@@ -123,7 +130,7 @@ const ProfileUserStaffPage = () => {
                       <div className="text-muted-foreground inline-flex items-center gap-1.5 text-base">
                         <span className="text-sm font-medium">PIN:</span>
                         <span className="text-sm font-medium select-none">
-                          {showPin ? '12345' : '••••••'}
+                          {showPin ? posPin : '••••••'}
                         </span>
                         <Button
                           type="button"
@@ -177,6 +184,8 @@ const ProfileUserStaffPage = () => {
         className="sm:max-w-2xl"
         open={isOpenDialog}
         onOpenChange={setIsOpenDialog}
+        user={user}
+        posPin={posPin}
       />
     </>
   );
