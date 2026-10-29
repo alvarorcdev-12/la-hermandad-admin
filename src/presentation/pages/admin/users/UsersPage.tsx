@@ -118,7 +118,7 @@ const UsersPage = () => {
                       </TableCell>
                       <TableCell className="font-medium text-foreground">
                         <Link
-                          to={`/admin/settings/organization/${user.id}`}
+                          to={`/admin/users/${user.id}`}
                           className="hover:underline"
                         >
                           {user.name}
