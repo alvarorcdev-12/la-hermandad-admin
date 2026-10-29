@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Navigate, useParams } from 'react-router';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import {
   ChevronDown,
@@ -31,19 +31,26 @@ import {
   NativeSelect,
   NativeSelectOption,
 } from '@/components/ui/native-select';
+import { toast } from '@/components/ui/toast';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+
 import { UserFormDialog } from '@/presentation/components/user/UserFormDialog';
 import { AdminTitle } from '@/presentation/components/admin/AdminTitle';
+
 import { getUserByIdAction } from '@/actions/users/get-user-by-id.action';
 
 import { cn } from 'cn';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getUserPosPinAction } from '@/actions/users/get-user-pos-pin.action';
+import { updateUserAction } from '@/actions/users/update-user.action';
+
+import type { User } from '@/domain/entities/user.entity';
 
 const ProfileUserStaffPage = () => {
   const { id } = useParams();
 
+  const queryClient = useQueryClient();
+
   const [showPin, setShowPin] = useState(false);
-  const [posPin, setPosPin] = useState('');
 
   const [isOpenDialog, setIsOpenDialog] = useState(false);
 
@@ -58,22 +65,63 @@ const ProfileUserStaffPage = () => {
     retry: false,
   });
 
-  useEffect(() => {
-    getUserPosPinAction(id || '')
-      .then((resp) => setPosPin(resp.pin))
-      .catch(() => setPosPin(''));
-  }, [id]);
+  const queryUserPin = useQuery({
+    queryKey: ['user-pin', { id }],
+    queryFn: () => getUserPosPinAction(id || ''),
+    staleTime: 1000 * 60 * 5,
+    retry: false,
+  });
+
+  const mutation = useMutation({
+    mutationFn: updateUserAction,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['users'],
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['user', { id }],
+      });
+      // Invalidar POS PIN
+      queryClient.invalidateQueries({
+        queryKey: ['user-pin', { id }],
+      });
+    },
+  });
+
+  const handleUpdateUser = async (
+    userForm: Partial<User & { posPin: string }>,
+  ) => {
+    await mutation.mutateAsync(userForm, {
+      onSuccess: () => {
+        setIsOpenDialog(false);
+        toast.add({
+          type: 'success',
+          title: 'Usuario guardado.',
+        });
+      },
+      onError: () => {
+        toast.add({
+          type: 'error',
+          title: 'Error en guardar usuario.',
+        });
+      },
+    });
+  };
+
   if (isError) {
     return <Navigate to="/admin/users" replace />;
   }
 
-  if (isLoading) {
+  if (isLoading || queryUserPin.isLoading) {
     return <h1>Cargando...</h1>;
   }
 
   if (!user) {
     return <Navigate to="/admin/users" replace />;
   }
+
+  const posPin = queryUserPin.data?.pin || '';
 
   return (
     <>
@@ -183,9 +231,10 @@ const ProfileUserStaffPage = () => {
       <UserFormDialog
         className="sm:max-w-2xl"
         open={isOpenDialog}
-        onOpenChange={setIsOpenDialog}
         user={user}
         posPin={posPin}
+        onOpenChange={setIsOpenDialog}
+        onSubmit={handleUpdateUser}
       />
     </>
   );

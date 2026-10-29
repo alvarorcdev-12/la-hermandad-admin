@@ -12,7 +12,6 @@ import {
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/auth/password-input';
-import { toast } from '@/components/ui/toast';
 
 import { generatePosPinAction } from '@/actions/users/generate-pos-pin.action';
 
@@ -26,6 +25,7 @@ interface Props {
   posPin: string;
 
   onOpenChange: (value: boolean) => void;
+  onSubmit: (userForm: Partial<User & { posPin: string }>) => Promise<void>;
 }
 
 interface FormInputs extends User {
@@ -38,23 +38,20 @@ export const UserFormDialog = ({
   user,
   posPin,
   onOpenChange,
+  onSubmit,
 }: Props) => {
-  const { register, reset, setValue } = useForm<FormInputs>({
+  const { register, reset, setValue, handleSubmit } = useForm<FormInputs>({
     defaultValues: { ...user, posPin },
   });
 
   const onGeneratePosPin = async () => {
     const { pin } = await generatePosPinAction();
     setValue('posPin', pin);
-    toast.add({
-      type: 'success',
-      title: 'PIN generado',
-    });
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <DialogContent className={className}>
           <DialogHeader>
             <DialogTitle>Editar usuario</DialogTitle>
@@ -93,16 +90,19 @@ export const UserFormDialog = ({
             <Field>
               <FieldLabel>PIN de Punto de Venta</FieldLabel>
               <div className="flex items-center gap-2">
-                <PasswordInput {...register('posPin')} />
+                <PasswordInput
+                  {...register('posPin', { required: 'El PIN es requerido' })}
+                />
                 <div className="flex items-center gap-1">
                   <Button
+                    type="button"
                     size="icon"
                     variant="outline"
                     onClick={onGeneratePosPin}
                   >
                     <RotateCw />
                   </Button>
-                  <Button size="icon" variant="outline">
+                  <Button type="button" size="icon" variant="outline">
                     <Clipboard />
                   </Button>
                 </div>
@@ -121,7 +121,9 @@ export const UserFormDialog = ({
             >
               Cancelar
             </Button>
-            <Button type="submit">Listo</Button>
+            <Button type="submit" onClick={handleSubmit(onSubmit)}>
+              Listo
+            </Button>
           </DialogFooter>
         </DialogContent>
       </form>
